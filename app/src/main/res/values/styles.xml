@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
     <style name="BaseDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <!--边框-->

@@ -16,7 +16,7 @@ public class ReqClient {
     private static final int TIME_OUT_MILLIS = 10000;
     private static AsyncHttpClient client = new AsyncHttpClient();
     private static final String LOG_TAG = "ReqClient";
-    public static Handler DEFAULT_RESPONSE_HANDLER = new Handler() {
+    private static Handler DEFAULT_RESPONSE_HANDLER = new Handler<String>(String.class) {
         @Override
         public void res(Result<String> res) {
             Log.d(LOG_TAG, " DEFAULT_HANDLER: res: " + res.json());
@@ -25,17 +25,22 @@ public class ReqClient {
 
     static{
         client.setTimeout(TIME_OUT_MILLIS);
-
     }
 
 
     public static String getCookies(){
 
-
         return cookies;
     }
 
-    public static abstract class Handler extends AsyncHttpResponseHandler {
+    public static abstract class Handler<T> extends AsyncHttpResponseHandler {
+
+        Class<T> c;
+
+        public Handler(Class c){
+            this.c = c;
+        }
+
         @Override
         public void onSuccess(int i, Header[] headers, byte[] bytes) {
             String data = StringUtils.fromBytes(bytes);
@@ -51,7 +56,7 @@ public class ReqClient {
             if(StringUtils.isNotBlank(data))
                 res = JSON.from(data, JSON.type(Result.class, String.class));
             if(res == null)
-                res = $.error.access.data_josn_err;
+                res(Result.create(0, data, "", "format Result class error, create Result.."));
             res(res);
         }
 
@@ -85,7 +90,8 @@ public class ReqClient {
     public static void postNoapp(String url, RequestParams params, AsyncHttpResponseHandler responseHandler){
 
         client.post(url,params,responseHandler);
-
     }
+
+
 
 }

@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
@@ -29,5 +33,7 @@ dependencies {
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.2' //json转换工具
     implementation 'com.loopj.android:android-async-http:1.4.9' //异步http请求库
+
+    implementation 'com.ogaclejapan.smarttablayout:library:1.7.0@aar'//smart tab layout
 
 }

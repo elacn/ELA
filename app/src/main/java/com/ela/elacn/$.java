@@ -14,8 +14,8 @@ import java.util.Date;
 
 public class $ {
 
-    public static final String DEV_SERVER = "http://www.51juhaodai.com";
-    public static final String REALEASE_SERVER = "http://www.51juhaodai.com";
+    public static final String DEV_SERVER = "http://english.leanapp.cn";
+    public static final String RELEASE_SERVER = "http://english.leanapp.cn";
     private static String User_PHONE = "";
 
     /* 全局配置 */
@@ -53,7 +53,7 @@ public class $ {
 
 
     public static class server {
-        public static final String context = BuildConfig.DEBUG ? DEV_SERVER : REALEASE_SERVER;
+        public static final String context = BuildConfig.DEBUG ? DEV_SERVER : RELEASE_SERVER;
         public static String url(String uri) {
             return StringUtils.pathMerge(server.context, uri);
         }
@@ -70,8 +70,11 @@ public class $ {
     /* local error result */
     public static class error {
         public static class access {
+
+            public static String data_null_err = "data equal null";
             public static Result<String> data_josn_err = Result.fail(-100, "Can't convert the data to a result object.");
         }
+
     }
 
     public static class format {

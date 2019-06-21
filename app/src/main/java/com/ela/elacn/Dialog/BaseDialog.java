@@ -9,14 +9,14 @@ import com.ela.elacn.R;
 
 public class BaseDialog extends Dialog implements View.OnClickListener {
 
-    protected View confirmButton;
-    protected View closeButton;
+    private View confirmButton;
+    private View closeButton;
 
-    protected Context mContext;
-    protected int layout;
+    private Context mContext;
+    private int layout;
 
     public BaseDialog(Context context, int layout) {
-        super(context, R.style.BaseDialog);
+        super(context, R.style.Widget_AppCompat_ProgressBar_Horizontal);
         this.mContext = context;
         this.layout = layout;
     }
