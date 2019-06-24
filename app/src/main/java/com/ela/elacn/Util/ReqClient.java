@@ -56,7 +56,7 @@ public class ReqClient {
             if(StringUtils.isNotBlank(data))
                 res = JSON.from(data, JSON.type(Result.class, String.class));
             if(res == null)
-                res(Result.create(0, data, "", "format Result class error, create Result.."));
+                res = Result.create(0, data, "", "format Result class error, create Result..");
             res(res);
         }
 
