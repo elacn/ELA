@@ -35,8 +35,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.2' //json转换工具
     implementation 'com.loopj.android:android-async-http:1.4.9' //异步http请求库
 
-    implementation 'com.ogaclejapan.smarttablayout:library:1.7.0@aar'
-    implementation 'com.google.android.material:material:1.0.0'//smart tab layout
-//Optional: see how to use the utility.
-    implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.7.0@aar'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar' //smart tab layout
+
+    //Optional: see how to use the utility.
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
 }
