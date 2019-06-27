@@ -1,7 +1,8 @@
 package com.ela.elacn.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ela.elacn.Util.JSON;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Result<T> {
 
     public int code;

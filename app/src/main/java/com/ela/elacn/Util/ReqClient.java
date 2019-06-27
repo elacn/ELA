@@ -2,7 +2,6 @@ package com.ela.elacn.Util;
 
 import android.util.Log;
 
-import com.ela.elacn.$;
 import com.ela.elacn.Model.Result;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;

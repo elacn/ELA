@@ -70,7 +70,7 @@ public class JSON {
         EXCEPT
     }
 
-    public static ObjectWriter filterWriter(Class<?> target, Class<?> mixinSource, String filterName, FilterBy filterBy, String ... properties){
+    public static ObjectWriter filterWriter(Class<?> target, Class<?> mixinSource, String filterName, FilterBy filterBy, String... properties){
         ObjectMapper mapper = new ObjectMapper().addMixIn(target, mixinSource);
         SimpleBeanPropertyFilter simpleBeanPropertyFilter = filterBy == null ? null : (filterBy == FilterBy.OUTEXCEPT ? SimpleBeanPropertyFilter.filterOutAllExcept(properties) : SimpleBeanPropertyFilter.serializeAllExcept(properties));
         return mapper.writer(new SimpleFilterProvider().addFilter(filterName, simpleBeanPropertyFilter));

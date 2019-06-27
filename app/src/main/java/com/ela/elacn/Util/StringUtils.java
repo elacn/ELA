@@ -51,7 +51,7 @@ public class StringUtils {
 
         if(color != null) {
             ForegroundColorSpan fcs1 = new ForegroundColorSpan(color);
-            spanStr.setSpan(fcs1,0, spanStr.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体的颜色
+            spanStr.setSpan(fcs1,0, spanStr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体的颜色
         }
         builder.append(spanStr);
     }

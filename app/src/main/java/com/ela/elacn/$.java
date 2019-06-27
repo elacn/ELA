@@ -3,7 +3,6 @@ package com.ela.elacn;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.service.media.MediaBrowserService;
 
 import com.ela.elacn.Model.Result;
 import com.ela.elacn.Util.StringUtils;
@@ -28,7 +27,7 @@ public class $ {
 
     public static class Userinfo {
 
-        public static  String phone = "";
+        public static String phone = "";
     }
 
     public static String getVersionCode(Context context){
