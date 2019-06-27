@@ -2,7 +2,9 @@ package com.ela.elacn.Home.Activity;
 
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.ela.elacn.R;
 import com.ela.elacn.Util.ReqClient;
 import com.ela.elacn.databinding.ActivityHomeBinding;
 import com.loopj.android.http.RequestParams;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -31,22 +34,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
-
-
-            ActivityHomeBinding b = DataBindingUtil.setContentView(this,R.layout.activity_home);
+            super.onCreate(savedInstanceState);
 
             b = DataBindingUtil.setContentView(this, R.layout.activity_home);
-
-
-
-            loadData();
             toolbar = findViewById(R.id.toptoolbar);
             setSupportActionBar(toolbar);
-
-
-
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_home);
             Toolbar toolbar = findViewById(R.id.toptoolbar);
             setSupportActionBar(toolbar);
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -56,6 +48,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             drawer.addDrawerListener(toggle);
             toggle.syncState();
             navigationView.setNavigationItemSelectedListener(this);
+
+            initUI();
+
+            loadData();
+
         }
 
         @Override
@@ -118,13 +115,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         private void initUI(){
 
-            FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+
+            FragmentPagerItemAdapter adapter1 = new FragmentPagerItemAdapter(
                     getSupportFragmentManager(), FragmentPagerItems.with(this)
-                    .add("VOA", VOAslow.class)
-                    .add("Movie", VOAslow.class)
+                    .add("Hello", VOAslow.class)
+                    .add("Hello1", VOAslow.class)
+                    .add("Hello2", VOAslow.class)
+                    .add("Hello3", VOAslow.class)
+                    .add("Hello4", VOAslow.class)
+                    .add("Hello5", VOAslow.class)
+                    .add("Hello6", VOAslow.class)
+                    .add("Hello7", VOAslow.class)
+                    .add("Hello8", VOAslow.class)
+                    .add("Hello9", VOAslow.class)
                     .create());
 
-            b.viewpager.setAdapter(adapter);
+            b.viewpager.setAdapter(adapter1);
 
             b.viewpagertab.setViewPager(b.viewpager);
         }
