@@ -33,6 +33,7 @@
                 android:layout_marginRight="60dp"
                 app:stl_underlineThickness="6dp"
                 app:stl_indicatorColor="@color/green"
+                app:stl_indicatorThickness="2dp"
                 app:stl_customTabTextLayoutId="@layout/custom_tab"
                 app:stl_indicatorAlwaysInCenter="true"
                 />

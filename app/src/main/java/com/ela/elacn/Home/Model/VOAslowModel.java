@@ -4,7 +4,15 @@ public class VOAslowModel {
 
     private data data;
 
-    private int messageid;
+    public int getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
+    }
+
+    private int messageId;
 
     public com.ela.elacn.Home.Model.data getData() {
         return data;
@@ -14,13 +22,7 @@ public class VOAslowModel {
         this.data = data;
     }
 
-    public int getMessageid() {
-        return messageid;
-    }
 
-    public void setMessageid(int messageid) {
-        this.messageid = messageid;
-    }
 
     public String getId() {
         return id;

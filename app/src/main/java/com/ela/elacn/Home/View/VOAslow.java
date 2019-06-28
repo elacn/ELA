@@ -105,7 +105,7 @@ public class VOAslow extends Fragment {
 
                 VOAslowModel model = datasource.get(datasource.size()-1);
 
-                maxId = model.getMessageid();
+                maxId = model.getMessageId()-1;
 
                 loadData();
             }

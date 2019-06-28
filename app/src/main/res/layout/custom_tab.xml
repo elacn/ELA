@@ -9,7 +9,7 @@
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
     android:textColor="@color/custom_tab"
-    android:textSize="14sp"
+    android:textSize="20sp"
 
     >
 
