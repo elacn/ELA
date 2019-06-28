@@ -1,14 +1,29 @@
 package com.ela.elacn.Home.View;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.ela.elacn.$;
+import com.ela.elacn.Home.Model.VOAslowModel;
+import com.ela.elacn.Model.Result;
 import com.ela.elacn.R;
+import com.ela.elacn.Util.JSON;
+import com.ela.elacn.Util.ReqClient;
+import com.ela.elacn.databinding.FragmentVoaslowBinding;
+import com.loopj.android.http.RequestParams;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,6 +35,10 @@ import com.ela.elacn.R;
  * create an instance of this fragment.
  */
 public class VOAslow extends Fragment {
+    private ArrayList<VOAslowModel> datasource = new ArrayList<VOAslowModel>();
+    private int maxId = 0;
+    private FragmentVoaslowBinding b;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,11 +81,77 @@ public class VOAslow extends Fragment {
         }
     }
 
+    private  newAdapter viewAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        b = DataBindingUtil.inflate(inflater, R.layout.fragment_voaslow, container, false);
+
+
+        RefreshLayout refreshLayout = b.refreshLayout;
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000);
+
+                maxId = 0;
+                loadData();
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+
+                VOAslowModel model = datasource.get(datasource.size()-1);
+
+                maxId = model.getMessageid();
+
+                loadData();
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_voaslow, container, false);
+
+
+
+        viewAdapter = new newAdapter(datasource, getActivity());
+
+        b.newsList.setAdapter(viewAdapter);
+
+        loadData();
+
+        return b.getRoot();
+    }
+
+
+    private void loadData(){
+
+        RequestParams params = new RequestParams();
+        params.add("limit",String.valueOf(10));
+        params.add("s","voaspecial");
+        params.add("syncText","1");
+        params.add("maxId",String.valueOf(maxId));
+
+        ReqClient.get($.DEV_SERVER + "/feed", params, new ReqClient.Handler<String>(String.class){
+            @Override
+            public void res(Result<String> res) {
+
+                b.refreshLayout.finishLoadMore(1000);
+                b.refreshLayout.finishRefresh(1000);
+
+                if (res.isSuccess()){
+
+                    String json = res.data;
+
+                    List<VOAslowModel> list = JSON.parseArray(json, VOAslowModel.class);
+
+                    datasource.addAll(list);
+
+                    viewAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

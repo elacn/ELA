@@ -31,9 +31,11 @@
                 android:background="@color/MenuColor"
                 android:layout_marginLeft="60dp"
                 android:layout_marginRight="60dp"
-                >
-
-            </com.ogaclejapan.smarttablayout.SmartTabLayout>
+                app:stl_underlineThickness="6dp"
+                app:stl_indicatorColor="@color/green"
+                app:stl_customTabTextLayoutId="@layout/custom_tab"
+                app:stl_indicatorAlwaysInCenter="true"
+                />
 
 
             <android.support.v4.view.ViewPager

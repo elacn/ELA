@@ -48,7 +48,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             drawer.addDrawerListener(toggle);
             toggle.syncState();
             navigationView.setNavigationItemSelectedListener(this);
-
             initUI();
 
             loadData();
