@@ -1,6 +1,7 @@
 package com.ela.elacn.Home.View;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,9 +9,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ela.elacn.$;
+import com.ela.elacn.Home.Activity.VOASlowInfoActivity;
 import com.ela.elacn.Home.Model.VOAslowModel;
 import com.ela.elacn.Model.Result;
 import com.ela.elacn.R;
@@ -113,11 +116,18 @@ public class VOAslow extends Fragment {
 
         // Inflate the layout for this fragment
 
-
-
         viewAdapter = new newAdapter(datasource, getActivity());
 
         b.newsList.setAdapter(viewAdapter);
+
+        b.newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(getActivity(),VOASlowInfoActivity.class);
+                startActivity(intent);
+            }
+        });
 
         loadData();
 
