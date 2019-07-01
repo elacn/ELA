@@ -43,8 +43,18 @@ public class newAdapter extends BaseAdapter implements View.OnTouchListener {
         return 0;
     }
 
+
+
+
     @Override
     public boolean onTouch(final View v, MotionEvent event) {
+
+
+
+        return true;
+    }
+
+    public void startAnimation(View v){
 
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale);
         v.startAnimation(animation);
@@ -57,8 +67,7 @@ public class newAdapter extends BaseAdapter implements View.OnTouchListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Animation animationEnd = AnimationUtils.loadAnimation(context, R.anim.scaledown);
-                v.startAnimation(animationEnd);
+
             }
 
             @Override
@@ -66,7 +75,6 @@ public class newAdapter extends BaseAdapter implements View.OnTouchListener {
 
             }
         });
-        return false;
     }
 
     public static class ViewHolder{
@@ -89,8 +97,8 @@ public class newAdapter extends BaseAdapter implements View.OnTouchListener {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
+    public View getView(final int position, View view, ViewGroup viewGroup) {
+         final ViewHolder viewHolder;
 
         if(view == null) {
 
@@ -116,11 +124,39 @@ public class newAdapter extends BaseAdapter implements View.OnTouchListener {
                 .centerCrop()
                 .into(viewHolder.image);
 
-        viewHolder.cardView.setOnTouchListener(this);
+        startAnimation(viewHolder.cardView);
+
+        if (mOnItemClickListener != null) {
+            viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(viewHolder.cardView, position);
+                }
+            });
+
+            viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mOnItemClickListener.onItemLongClick(viewHolder.cardView, position);
+                    return false;
+                }
+            });
+        }
+
 
         return viewHolder.itemView;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
 
+        void onItemLongClick(View view, int position);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
 
 }

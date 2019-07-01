@@ -35,7 +35,14 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="overlapAnchor">false</item>
+    </style>
+
+    <style name="OverflowButtonStyle" parent="android:Widget.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu_share</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
+    </style>
 
     <!--设置按钮颜色-->
     <style name="ToolbarTheme">

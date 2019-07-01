@@ -120,12 +120,17 @@ public class VOAslow extends Fragment {
 
         b.newsList.setAdapter(viewAdapter);
 
-        b.newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        viewAdapter.setOnItemClickListener(new newAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
 
                 Intent intent = new Intent(getActivity(),VOASlowInfoActivity.class);
                 startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
             }
         });
 
