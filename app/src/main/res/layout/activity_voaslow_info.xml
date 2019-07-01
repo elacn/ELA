@@ -1,0 +1,26 @@
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+<data>
+</data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/homeToobar"
+            layout="@layout/app_bar_home"
+            android:layout_width="match_parent"
+            android:layout_height="52dp" />
+
+        <ListView
+            android:id="@+id/voaSlow_listView"
+            android:layout_below="@id/homeToobar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+
+    </RelativeLayout>
+
+
+</layout>
