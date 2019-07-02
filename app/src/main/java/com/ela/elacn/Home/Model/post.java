@@ -1,6 +1,10 @@
 package com.ela.elacn.Home.Model;
 
-public class post {
+import java.io.Serializable;
+
+public class post implements Serializable {
+
+    private static final long serialVersionUID = 1012375L;
 
     private int pageviews;
 

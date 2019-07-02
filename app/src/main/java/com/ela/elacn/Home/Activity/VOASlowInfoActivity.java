@@ -13,13 +13,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ela.elacn.Home.Model.VOAslowModel;
+import com.ela.elacn.Home.Model.VOAslowTextInfoModel;
 import com.ela.elacn.Home.View.VOASlowPlayInfoAdapter;
 import com.ela.elacn.R;
+import com.ela.elacn.Util.JSON;
 import com.ela.elacn.databinding.ActivityVoaslowInfoBinding;
 
 import java.util.ArrayList;
 
 public class VOASlowInfoActivity extends AppCompatActivity{
+
+    private ArrayList<VOAslowTextInfoModel> dataSource = new ArrayList<>();
 
     private ActivityVoaslowInfoBinding b;
 
@@ -27,10 +32,14 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
 
+    private VOAslowModel model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         b = DataBindingUtil.setContentView(this,R.layout.activity_voaslow_info);
+
+        model = (VOAslowModel)getIntent().getSerializableExtra("data");
 
         initUI();
     }
@@ -47,7 +56,18 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        adapter = new VOASlowPlayInfoAdapter(new ArrayList(),this);
+        String text = model.getData().getText();
+
+        String[] textArray = text.split("\r\n");
+
+        for (int i= 0; i < textArray.length; i++){
+
+            VOAslowTextInfoModel model = JSON.parseObject(textArray[i],VOAslowTextInfoModel.class);
+
+            dataSource.add(model);
+        }
+
+        adapter = new VOASlowPlayInfoAdapter(dataSource,this);
 
         b.voaSlowListView.setAdapter(adapter);
 

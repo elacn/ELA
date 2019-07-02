@@ -1,6 +1,10 @@
 package com.ela.elacn.Home.Model;
 
-public class source {
+import java.io.Serializable;
+
+public class source implements Serializable {
+
+    private static final long serialVersionUID = 1012374L;
 
     private String displayname; //
     private String username;

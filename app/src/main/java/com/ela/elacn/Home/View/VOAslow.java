@@ -125,6 +125,7 @@ public class VOAslow extends Fragment {
             public void onItemClick(View view, int position) {
 
                 Intent intent = new Intent(getActivity(),VOASlowInfoActivity.class);
+                intent.putExtra("data",datasource.get(position));
                 startActivity(intent);
             }
 

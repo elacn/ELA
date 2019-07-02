@@ -1,6 +1,11 @@
 package com.ela.elacn.Home.Model;
 
-public class VOAslowModel {
+import java.io.Serializable;
+
+public class VOAslowModel implements Serializable {
+
+
+    private static final long serialVersionUID = 1012373L;
 
     private data data;
 
@@ -31,8 +36,6 @@ public class VOAslowModel {
     public void setId(String id) {
         this.id = id;
     }
-
-
 
 
     private String id;

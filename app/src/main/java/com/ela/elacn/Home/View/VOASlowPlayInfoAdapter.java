@@ -7,28 +7,33 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ela.elacn.Home.Model.VOAslowModel;
+import com.ela.elacn.Home.Model.VOAslowTextInfoModel;
 import com.ela.elacn.R;
+import com.jaychang.st.OnTextClickListener;
+import com.jaychang.st.Range;
+import com.jaychang.st.SimpleText;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VOASlowPlayInfoAdapter extends BaseAdapter {
 
-    private ArrayList dataSource;
+    private ArrayList<VOAslowTextInfoModel> dataSource;
 
     private Context context;
 
-    public VOASlowPlayInfoAdapter(ArrayList dataSource,Context context){
+    public VOASlowPlayInfoAdapter(ArrayList<VOAslowTextInfoModel> dataSource, Context context){
         this.context = context;
         this.dataSource = dataSource;
     }
 
     @Override
     public int getCount() {
-//        return dataSource.size();
-        return 10;
+        return dataSource.size();
     }
 
     @Override
@@ -55,6 +60,33 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)view.getTag();
         }
 
+        VOAslowTextInfoModel model = dataSource.get(position);
+
+        String[] textArray = model.getEnglish().split(" ");
+
+        List<String> l = new ArrayList<>();
+
+        for (int i = 0; i < textArray.length; i++){
+
+            l.add(textArray[i]);
+        }
+
+        SimpleText simpleText = SimpleText.from(model.getEnglish());
+
+        simpleText.allStartWith("");
+
+        simpleText.tags(l);
+
+        simpleText.onClick(viewHolder.textview_en, new OnTextClickListener() {
+            @Override
+            public void onClicked(CharSequence text, Range range, Object tag) {
+
+                Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        viewHolder.textview_en.setText(simpleText);
+        viewHolder.textview_cn.setText(model.getChinese());
 
         return viewHolder.itemView;
     }

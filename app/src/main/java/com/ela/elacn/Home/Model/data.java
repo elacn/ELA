@@ -1,6 +1,10 @@
 package com.ela.elacn.Home.Model;
 
-public class data {
+import java.io.Serializable;
+
+public class data implements Serializable {
+
+    private static final long serialVersionUID = 1012376L;
 
     private String inboxType;
     private String type;
