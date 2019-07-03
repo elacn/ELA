@@ -4,19 +4,23 @@ import android.view.ViewDebug;
 
 public class VOAslowTextInfoModel {
 
+
     public int getStart() {
         String[] time = start.split("[.:]");
         String timeString = "";
+        int num = 0;
 
-        for (int i = 0; i < time.length ; i++){
-            timeString = timeString + time[i];
-        }
 
-        timeString = timeString + "0";
+        num+=Integer.parseInt(time[0])*3600000;
 
-        int export = Integer.valueOf(timeString);
+        num+=Integer.parseInt(time[1])*60000;
 
-        return export;
+        num+=Integer.parseInt(time[2])*1000;
+
+        num+=Integer.parseInt(time[3]);
+
+        return num;
+
     }
 
     public void setStart(String start) {
@@ -26,16 +30,18 @@ public class VOAslowTextInfoModel {
     public int getEnd() {
         String[] time = end.split("[.:]");
         String timeString = "";
+        int num = 0;
 
-        for (int i = 0; i < time.length ; i++){
-            timeString = timeString + time[i];
-        }
 
-        timeString = timeString + "0";
+        num+=Integer.parseInt(time[0])*3600000;
 
-        int export = Integer.valueOf(timeString);
+        num+=Integer.parseInt(time[1])*60000;
 
-        return export;
+        num+=Integer.parseInt(time[2])*1000;
+
+        num+=Integer.parseInt(time[3]);
+
+        return num;
     }
 
     public void setEnd(String end) {

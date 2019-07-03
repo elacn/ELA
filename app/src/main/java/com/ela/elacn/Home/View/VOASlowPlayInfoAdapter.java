@@ -86,6 +86,7 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
 
         simpleText.tags(l);
 
+        /*
         simpleText.onClick(viewHolder.textview_en, new OnTextClickListener() {
             @Override
             public void onClicked(CharSequence text, Range range, Object tag) {
@@ -93,7 +94,7 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
                 QueryTranslation(String.valueOf(text));
             }
         });
-
+*/
         viewHolder.textview_en.setText(simpleText);
         viewHolder.textview_cn.setText(model.getChinese());
 

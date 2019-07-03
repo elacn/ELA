@@ -1,8 +1,10 @@
 package com.ela.elacn.Util;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.net.rtp.AudioStream;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +41,7 @@ public class mediamanager {
         createTimer();
         mp.stop();
         block = b;
+        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mp.reset();
         mp.setDataSource(filepath);
         mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

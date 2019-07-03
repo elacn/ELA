@@ -18,6 +18,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.ela.elacn.$;
 import com.ela.elacn.Home.Model.VOAslowModel;
@@ -48,6 +50,8 @@ public class VOASlowInfoActivity extends AppCompatActivity{
     private Toolbar toolbar;
 
     private VOAslowModel model;
+
+    private int playIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +111,21 @@ public class VOASlowInfoActivity extends AppCompatActivity{
         b.voaSlowListView.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
+
+        b.voaSlowListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Uri url = Uri.parse(model.getData().getUrl());
+                String mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
+
+                b.voaSlowListView.smoothScrollToPosition(position);
+                playIndex = position;
+                playmp3(mp3Path);
+            }
+        });
     }
+
+
 
 
     public void downloadCheck() {
@@ -132,20 +150,33 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
             } else {
 
-                try {
-                    mediamanager.getManager().playMp3(mp3Path, dataSource.get(0).getStart(), dataSource.get(0).getEnd(), new mediamanager.completedPlay() {
-                        @Override
-                        public void playercallback() {
-
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                playmp3(mp3Path);
             }
         }
     }
 
+
+    public void playmp3(final String mp3Path){
+        try {
+            mediamanager.getManager().playMp3(mp3Path, dataSource.get(playIndex).getStart(), dataSource.get(playIndex).getEnd(), new mediamanager.completedPlay() {
+                @Override
+                public void playercallback() {
+                    if(playIndex <= dataSource.size()){
+                        playIndex++;
+                        //b.voaSlowListView.smoothScrollToPosition(playIndex);
+                        int h1 = b.voaSlowListView.getHeight();
+                        int h2 = b.voaSlowListView.getHeight();
+
+                        b.voaSlowListView.smoothScrollToPositionFromTop(playIndex, h1/2 - h2/2);
+                        playmp3(mp3Path);
+                    }
+
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void downloadMP3(String url, String path){
         FileDownloader.getImpl().create(url)

@@ -20,6 +20,8 @@
             android:layout_marginTop="20dp"
             android:textColor="@color/black"
             android:lineSpacingMultiplier="1.5"
+            android:clickable="false"
+
             />
 
         <TextView
@@ -34,6 +36,8 @@
             android:text=""
             android:textColor="@color/colorPrimaryDark"
             android:lineSpacingMultiplier="1.5"
+            android:clickable="false"
+
             />
 
     </RelativeLayout>
