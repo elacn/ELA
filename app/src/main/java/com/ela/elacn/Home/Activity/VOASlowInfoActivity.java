@@ -1,11 +1,16 @@
 package com.ela.elacn.Home.Activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.database.DatabaseUtils;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +52,22 @@ public class VOASlowInfoActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         b = DataBindingUtil.setContentView(this,R.layout.activity_voaslow_info);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            int PERMISSION_REQUEST_CODE = 1;
+            if (ContextCompat.checkSelfPermission(VOASlowInfoActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                if (ActivityCompat.shouldShowRequestPermissionRationale(VOASlowInfoActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                } else {
+                    ActivityCompat.requestPermissions(VOASlowInfoActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            PERMISSION_REQUEST_CODE);
+                }
+            }
+        }
 
         FileDownloader.setup(this);
 
@@ -94,7 +115,9 @@ public class VOASlowInfoActivity extends AppCompatActivity{
         String mp3Path = $.MP3_DIRECTORY+ File.separator +model.getData().getUrl();
 
         if (!FileUtil.checkFile($.MP3_DIRECTORY)){
-            FileUtil.makeRootDirectory($.MP3_DIRECTORY);
+            Environment.getExternalStorageState();
+            File directory = new File($.MP3_DIRECTORY);
+            directory.mkdirs();
         }
 
         if(!FileUtil.checkFile(mp3Path)){
@@ -113,11 +136,7 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
-
-
     }
 
 
