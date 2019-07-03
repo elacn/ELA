@@ -12,7 +12,7 @@ public class VOAslowTextInfoModel {
             timeString = timeString + time[i];
         }
 
-        timeString = timeString + "00";
+        timeString = timeString + "0";
 
         int export = Integer.valueOf(timeString);
 
@@ -31,7 +31,7 @@ public class VOAslowTextInfoModel {
             timeString = timeString + time[i];
         }
 
-        timeString = timeString + "00";
+        timeString = timeString + "0";
 
         int export = Integer.valueOf(timeString);
 

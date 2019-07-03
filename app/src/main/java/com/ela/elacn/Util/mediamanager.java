@@ -33,43 +33,40 @@ public class mediamanager {
 
     private static Timer timer;
 
-    public  void playMp3(String filepath, int start, int stop, completedPlay b) throws IOException {
+    public  void playMp3(String filepath, final int start, final int stop, completedPlay b) throws IOException {
 
         stopTimer();
         createTimer();
         mp.stop();
         block = b;
+        mp.reset();
         mp.setDataSource(filepath);
-        mp.seekTo(start);
         mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onPrepared(MediaPlayer mp) {
+            public void onPrepared(final MediaPlayer mp) {
+                mp.seekTo(start);
                 mp.start();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (block != null) block.playercallback();
+                        mp.stop();
+                    }
+                }, stop - start);
             }
         });
         mp.prepareAsync();
-
-        Timer timer = new Timer();
-        timer.schedule(task, stop-start);
     }
 
 
-    public  void stopMp3(){
+    public void stopMp3(){
+        stopTimer();
         mp.stop();
     }
-
 
     public  void pauseMp3(){
         mp.pause();
     }
-
-    private static TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            if (block != null) block.playercallback();
-            mp.stop();
-        }
-    };
 
     private static void createTimer(){
         timer = new Timer();

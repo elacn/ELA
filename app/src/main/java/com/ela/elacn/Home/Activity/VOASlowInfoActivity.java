@@ -29,6 +29,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class VOASlowInfoActivity extends AppCompatActivity{
@@ -48,6 +49,25 @@ public class VOASlowInfoActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         b = DataBindingUtil.setContentView(this,R.layout.activity_voaslow_info);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         FileDownloader.setup(this);
 
         model = (VOAslowModel)getIntent().getSerializableExtra("data");
@@ -90,15 +110,15 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
     public void downloadCheck(){
 
+        Uri url = Uri.parse(model.getData().getUrl());
 
-        String mp3Path = $.MP3_DIRECTORY+ File.separator +model.getData().getUrl();
+        String mp3Path = $.MP3_DIRECTORY+ File.separator + url.getLastPathSegment();
 
-        if (!FileUtil.checkFile($.MP3_DIRECTORY)){
+        if(FileUtil.checkFile($.MP3_DIRECTORY)){
             FileUtil.makeRootDirectory($.MP3_DIRECTORY);
         }
 
-        if(!FileUtil.checkFile(mp3Path)){
-            downloadMP3(model.getData().getUrl(), mp3Path);
+        if(!FileUtil.checkFile(mp3Path)){ downloadMP3(model.getData().getUrl(), mp3Path);
 
         }
         else{
@@ -119,7 +139,6 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
 
     }
-
 
 
     public void downloadMP3(String url, String path){
@@ -168,6 +187,12 @@ public class VOASlowInfoActivity extends AppCompatActivity{
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        mediamanager.getManager().stopMp3();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
