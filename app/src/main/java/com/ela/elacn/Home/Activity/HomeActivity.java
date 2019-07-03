@@ -121,7 +121,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             FragmentPagerItemAdapter adapter1 = new FragmentPagerItemAdapter(
                     getSupportFragmentManager(), FragmentPagerItems.with(this)
-                    .add("Hello", VOAslow.class)
+                    .add("VOASLOW", VOAslow.class)
                     .add("Hello1", VOAslow.class)
                     .add("Hello2", VOAslow.class)
                     .add("Hello3", VOAslow.class)

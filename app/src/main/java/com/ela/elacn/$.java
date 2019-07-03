@@ -3,11 +3,15 @@ package com.ela.elacn;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 
 import com.ela.elacn.Model.Result;
+import com.ela.elacn.Util.FileUtil;
 import com.ela.elacn.Util.StringUtils;
+import com.ela.elacn.Util.SystemUtil;
 import com.ela.elacn.Util.TimeUtil;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Date;
 
@@ -17,6 +21,9 @@ public class $ {
     public static final String RELEASE_SERVER = "http://english.leanapp.cn";
     private static String User_PHONE = "";
 
+
+    public static final String ROOT_DIR = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+ SystemUtil.getName();
+    public static final String MP3_DIRECTORY = ROOT_DIR + File.separator + "MP3";
     public static final String YOUDAO_APPKEY = "5fb87219b1669402";
 
 

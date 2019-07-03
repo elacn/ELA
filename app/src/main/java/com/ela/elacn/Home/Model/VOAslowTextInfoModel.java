@@ -1,17 +1,41 @@
 package com.ela.elacn.Home.Model;
 
+import android.view.ViewDebug;
+
 public class VOAslowTextInfoModel {
 
-    public String getStart() {
-        return start;
+    public int getStart() {
+        String[] time = start.split("[.:]");
+        String timeString = "";
+
+        for (int i = 0; i < time.length ; i++){
+            timeString = timeString + time[i];
+        }
+
+        timeString = timeString + "00";
+
+        int export = Integer.valueOf(timeString);
+
+        return export;
     }
 
     public void setStart(String start) {
         this.start = start;
     }
 
-    public String getEnd() {
-        return end;
+    public int getEnd() {
+        String[] time = end.split("[.:]");
+        String timeString = "";
+
+        for (int i = 0; i < time.length ; i++){
+            timeString = timeString + time[i];
+        }
+
+        timeString = timeString + "00";
+
+        int export = Integer.valueOf(timeString);
+
+        return export;
     }
 
     public void setEnd(String end) {

@@ -47,4 +47,6 @@ dependencies {
     // webImage  https://github.com/bumptech/glide
     implementation 'com.jaychang:simpletext:2.0.1'
     // richText from github
+    implementation 'com.liulishuo.filedownloader:library:1.7.6'
+    //filedownloader
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,15 +33,21 @@ public class mediamanager {
 
     private static Timer timer;
 
-    public  void playMp3(Context where, Uri filepath, int start, int stop, completedPlay b){
+    public  void playMp3(String filepath, int start, int stop, completedPlay b) throws IOException {
 
         stopTimer();
         createTimer();
         mp.stop();
         block = b;
-        mp = MediaPlayer.create(where, filepath);
+        mp.setDataSource(filepath);
         mp.seekTo(start);
-        mp.start();
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
+        mp.prepareAsync();
 
         Timer timer = new Timer();
         timer.schedule(task, stop-start);

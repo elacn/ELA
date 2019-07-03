@@ -35,44 +35,83 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             android:divider="@null"
             ></ListView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/white"
-            >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:padding="20dp"
-                android:rotation="180"
-                android:src="@drawable/iconskip" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:padding="20dp"
-                android:src="@drawable/playlarge" />
 
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:padding="20dp"
-                android:src="@drawable/iconskip" />
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="120dp"
+           android:layout_alignParentBottom="true"
+           android:background="@color/white"
+           >
+
+           <TextView
+               android:id="@+id/currentTime"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="9:02"
+               android:layout_marginTop="10dp"
+               android:layout_marginLeft="15dp"
+
+               android:textColor="@color/black"/>
+           <TextView
+               android:id="@+id/totalTime"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="7:02"
+               android:layout_alignParentRight="true"
+               android:layout_marginTop="10dp"
+               android:layout_marginRight="15dp"
+               android:textColor="@color/black"/>
+           <SeekBar
+               android:layout_toEndOf="@+id/currentTime"
+               android:layout_toStartOf="@id/totalTime"
+               android:id="@+id/seekbar"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@color/white"
+                android:progressBackgroundTint="@color/black"
+               android:layout_alignParentTop="true"
+               android:layout_marginTop="10dp"
+               />
+
+           <LinearLayout
+               android:orientation="horizontal"
+               android:layout_width="match_parent"
+               android:layout_height="80dp"
+               android:layout_alignParentBottom="true"
+               android:background="@color/white"
+               >
 
 
-        </LinearLayout>
+
+               <!--<ImageView-->
+                   <!--android:layout_width="match_parent"-->
+                   <!--android:layout_height="match_parent"-->
+                   <!--android:layout_gravity="center"-->
+                   <!--android:layout_weight="1"-->
+                   <!--android:padding="20dp"-->
+                   <!--android:rotation="180"-->
+                   <!--android:src="@drawable/iconskip" />-->
+
+               <!--<ImageView-->
+                   <!--android:layout_width="match_parent"-->
+                   <!--android:layout_height="match_parent"-->
+                   <!--android:layout_gravity="center"-->
+                   <!--android:layout_weight="1"-->
+                   <!--android:padding="20dp"-->
+                   <!--android:src="@drawable/download" />-->
+
+               <!--<ImageView-->
+                   <!--android:layout_width="match_parent"-->
+                   <!--android:layout_height="match_parent"-->
+                   <!--android:layout_gravity="center"-->
+                   <!--android:layout_weight="1"-->
+                   <!--android:padding="20dp"-->
+                   <!--android:src="@drawable/iconskip" />-->
 
 
-
+           </LinearLayout>
+       </RelativeLayout>
 
 
 

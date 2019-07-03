@@ -179,6 +179,8 @@ public class TimeUtil {
 
     public static void main(String[] args) {
 
+        String date = "00:00:43.28";
+
         Date startDate1 = parseDate("2016-04-01 19:00");
         Date endDate1 = parseDate("2016-04-01 19:00");
 
