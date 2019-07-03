@@ -1,6 +1,8 @@
 package com.ela.elacn.Home.View;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,13 @@ import com.ela.elacn.R;
 import com.jaychang.st.OnTextClickListener;
 import com.jaychang.st.Range;
 import com.jaychang.st.SimpleText;
+import com.youdao.sdk.app.Language;
+import com.youdao.sdk.app.LanguageUtils;
+import com.youdao.sdk.ydonlinetranslate.Translator;
+import com.youdao.sdk.ydtranslate.Translate;
+import com.youdao.sdk.ydtranslate.TranslateErrorCode;
+import com.youdao.sdk.ydtranslate.TranslateListener;
+import com.youdao.sdk.ydtranslate.TranslateParameters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,12 +90,13 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
             @Override
             public void onClicked(CharSequence text, Range range, Object tag) {
 
-                Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
+                QueryTranslation(String.valueOf(text));
             }
         });
 
         viewHolder.textview_en.setText(simpleText);
         viewHolder.textview_cn.setText(model.getChinese());
+
 
         return viewHolder.itemView;
     }
@@ -104,4 +114,60 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
         }
 
     }
+
+    private void QueryTranslation(String text){
+
+        //查词对象初始化，请设置source参数为app对应的名称（英文字符串）
+        Language langFrom = LanguageUtils.getLangByName("英文");
+        //若设置为自动，则查询自动识别源语言，自动识别不能保证完全正确，最好传源语言类型
+        //Language langFrom = LanguageUtils.getLangByName("自动");
+        Language langTo = LanguageUtils.getLangByName("中文");
+
+        TranslateParameters tps = new TranslateParameters.Builder()
+                .source("ydtranslate-demo")
+                .from(langFrom).to(langTo).build();
+
+        Translator translator = Translator.getInstance(tps);
+
+
+        //查询，返回两种情况，一种是成功，相关结果存储在result参数中，另外一种是失败，失败信息放在TranslateErrorCode中，TranslateErrorCode是一个枚举类，整个查询是异步的，为了简化操作，回调都是在主线程发生。
+
+        translator.lookup(text, "requestId", new TranslateListener() {
+            @Override
+            public void onError(TranslateErrorCode translateErrorCode, String s) {
+
+                Toast.makeText(context,s,Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onResult(final Translate translate, String s, String s1) {
+                translate.getExplains();
+
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        String translateString = new String();
+
+                        for (int i=0;i<translate.getExplains().size();i++){
+
+                            translateString = translateString + translate.getExplains().get(i);
+                        }
+
+                        Toast.makeText(context,translateString,Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResult(List<Translate> list, List<String> list1, List<TranslateErrorCode> list2, String s) {
+
+                Toast.makeText(context,s,Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private Handler mainHandler = new Handler(Looper.getMainLooper());
 }

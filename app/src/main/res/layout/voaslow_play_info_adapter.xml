@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:text="The agencies say space junk orbiting the earth must be cleaned up to make room for new satellites launched by private companies and other groups."
+            android:text=""
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
@@ -31,7 +31,7 @@
             android:layout_alignStart="@id/voaSlow_en_TextView"
             android:layout_marginTop="5dp"
             android:fontFamily="monospace"
-            android:text="本月早些时候，欧洲航天局和联合国外层太空事务办公室的代表们在奥地利维也纳会晤并讨论了这个问题。"
+            android:text=""
             android:textColor="@color/colorPrimaryDark"
             android:lineSpacingMultiplier="1.5"
             />

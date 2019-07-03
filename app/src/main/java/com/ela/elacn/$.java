@@ -17,6 +17,9 @@ public class $ {
     public static final String RELEASE_SERVER = "http://english.leanapp.cn";
     private static String User_PHONE = "";
 
+    public static final String YOUDAO_APPKEY = "5fb87219b1669402";
+
+
     /* 全局配置 */
     public static final String ENCODE = "utf-8";
 

@@ -24,6 +24,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.youdao.sdk.app.YouDaoApplication;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,8 +36,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             b = DataBindingUtil.setContentView(this, R.layout.activity_home);
+
+            //注册应用ID ，建议在应用启动时，初始化，所有功能的使用都需要该初始化，调用一次即可，demo中在MainActivity类中
+            YouDaoApplication.init(this, $.YOUDAO_APPKEY);
+
             toolbar = findViewById(R.id.toptoolbar);
             setSupportActionBar(toolbar);
             Toolbar toolbar = findViewById(R.id.toptoolbar);
