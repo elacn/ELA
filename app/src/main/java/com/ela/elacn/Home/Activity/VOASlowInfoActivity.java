@@ -214,8 +214,11 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
 
     public void playmp3(final String mp3Path){
+
+        int start = dataSource.get(playIndex).getStart();
+        int end = dataSource.get(playIndex).getEnd();
         try {
-            mediamanager.getManager().playMp3(mp3Path, dataSource.get(playIndex).getStart(), dataSource.get(playIndex).getEnd(), new mediamanager.completedPlay() {
+            mediamanager.getManager().playMp3(mp3Path, start, playIndex == dataSource.size()-1 ? (end - start) * 2 : end - start, new mediamanager.completedPlay() {
                 @Override
                 public void playercallback() {
                     playIndex++;
@@ -234,6 +237,15 @@ public class VOASlowInfoActivity extends AppCompatActivity{
                         b.voaSlowListView.smoothScrollToPositionFromTop(playIndex, h1/2 - h2/2);
                         playmp3(mp3Path);
                     }else {
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                adapter.changeSelected(playIndex);//刷新
+                            }
+                        });
 
                         playIndex = 0;
                         b.voaSlowListView.smoothScrollToPosition(playIndex);

@@ -50,14 +50,14 @@ public class VOAslowTextInfoModel {
 
         Integer d  = Integer.parseInt(time[3]);
 
-        if(d > 50){
-
-            num+=(Integer.parseInt(time[2]) +1) *1000;
-
-        }else {
+//        if(d > 50){
+//
+//            num+=(Integer.parseInt(time[2]) +1) *1000;
+//
+//        }else {
 
             num+=Integer.parseInt(time[2]) *1000;
-        }
+//        }
 
         num+=Integer.parseInt(time[3]);
 

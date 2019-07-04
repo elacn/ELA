@@ -64,7 +64,7 @@ public class mediamanager implements Runnable {
 
     private static Timer timer;
 
-    public  void playMp3(String filepath, final int start, final int stop, completedPlay b) throws IOException {
+    public  void playMp3(String filepath, final int start,final int delay, completedPlay b) throws IOException {
 
         stopTimer();
         createTimer();
@@ -87,7 +87,7 @@ public class mediamanager implements Runnable {
                         }
                         mp.stop();
                     }
-                }, stop - start);
+                }, delay);
             }
         });
 
