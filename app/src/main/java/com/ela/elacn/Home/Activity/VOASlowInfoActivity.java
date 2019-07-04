@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.SeekBar;
 
 import com.ela.elacn.$;
 import com.ela.elacn.Home.Model.VOAslowModel;
@@ -48,6 +50,10 @@ public class VOASlowInfoActivity extends AppCompatActivity{
     private VOASlowPlayInfoAdapter adapter;
 
     private Toolbar toolbar;
+
+    private Runnable runnable;
+
+    private Handler handler;
 
     private VOAslowModel model;
 
@@ -84,7 +90,7 @@ public class VOASlowInfoActivity extends AppCompatActivity{
     }
 
     @SuppressLint("ResourceAsColor")
-    private void initUI(){
+    private void initUI() {
 
 
         Toolbar toolbar = findViewById(R.id.voaslow_info_toolbar);
@@ -95,18 +101,24 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        b.seekbar.setMax(mediamanager.getManager().getDuration()); // where duration is recieved
+
+        b.totalTime.setText(mediamanager.getManager().getDuration());
+
         String text = model.getData().getText();
 
         String[] textArray = text.split("\r\n");
 
-        for (int i= 0; i < textArray.length; i++){
 
-            VOAslowTextInfoModel model = JSON.parseObject(textArray[i],VOAslowTextInfoModel.class);
+
+        for (int i = 0; i < textArray.length; i++) {
+
+            VOAslowTextInfoModel model = JSON.parseObject(textArray[i], VOAslowTextInfoModel.class);
 
             dataSource.add(model);
         }
 
-        adapter = new VOASlowPlayInfoAdapter(dataSource,this);
+        adapter = new VOASlowPlayInfoAdapter(dataSource, this);
 
         b.voaSlowListView.setAdapter(adapter);
 
@@ -131,12 +143,51 @@ public class VOASlowInfoActivity extends AppCompatActivity{
                 adapter.changeSelected(position);//刷新
                 Uri url = Uri.parse(model.getData().getUrl());
                 String mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
+                int h1 = b.voaSlowListView.getHeight();
+                int h2 = b.voaSlowListView.getHeight();
 
-                b.voaSlowListView.smoothScrollToPosition(position);
+                b.voaSlowListView.smoothScrollToPositionFromTop(playIndex, h1 / 2 - h2 / 2);
                 playIndex = position;
                 playmp3(mp3Path);
             }
         });
+
+
+        playCycle();
+
+        b.seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean input) {
+                if (input) {
+                    mediamanager.getManager().skipto(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    public void playCycle(){
+        b.seekbar.setProgress(mediamanager.getManager().getPosition());
+
+
+        if(mediamanager.getManager().playstatus()){
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    playCycle();
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
     }
 
 
