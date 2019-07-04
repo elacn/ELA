@@ -48,7 +48,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                android:id="@+id/currentTime"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="9:02"
+               android:text="00:00"
                android:layout_marginTop="10dp"
                android:layout_marginLeft="15dp"
                android:textColor="@color/black"/>
@@ -56,22 +56,25 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                android:id="@+id/totalTime"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="7:02"
+               android:text="00:00:00"
                android:layout_alignParentRight="true"
                android:layout_marginTop="10dp"
                android:layout_marginRight="15dp"
                android:textColor="@color/black"/>
-           <SeekBar
-               android:layout_toEndOf="@+id/currentTime"
-               android:layout_toStartOf="@id/totalTime"
+
+           <com.xw.repo.BubbleSeekBar
                android:id="@+id/seekbar"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:background="@color/white"
-                android:progressBackgroundTint="@color/black"
-               android:layout_alignParentTop="true"
                android:layout_marginTop="10dp"
-               android:progress="0"
+               android:layout_alignParentTop="true"
+               app:bsb_progress="20"
+               app:bsb_max="100.0"
+               android:layout_toEndOf="@+id/currentTime"
+               android:layout_toStartOf="@id/totalTime"
+               app:bsb_show_progress_in_float="true"
+               app:bsb_second_track_color="@color/green"
+               app:bsb_track_color="@color/grayColor"
                />
 
            <LinearLayout

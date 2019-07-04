@@ -86,7 +86,7 @@ public class VOAslowTextInfoModel {
 
     private String start; //auido start time
 
-    private String end; // audio end time
+    public String end; // audio end time
 
     private String chinese;
 

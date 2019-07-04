@@ -42,7 +42,9 @@ import com.liulishuo.filedownloader.FileDownloader;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 public class VOASlowInfoActivity extends AppCompatActivity{
 
@@ -152,32 +154,36 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             }
         });
 
-        b.seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean input) {
-                if (input) {
-                    mediamanager.getManager().skipto(progress);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
     }
 
     public void playCycle(final int progress){
 
+        int m = progress;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");//初始化Formatter的转换格式。
+        //取整
+        m=  Math.abs(m);
+
+        String hms = formatter.format(m);
+
+        final String date = hms.substring(3,5) + ":" + hms.substring(6,hms.length());
+
+        float p = progress;
+        float d = mediamanager.getManager().getDuration();
+
+        final float pro = p / d * 100;
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                b.currentTime.setText(date);
+            }
+        });
+
                 b.seekbar.post(new Runnable() {
                     @Override
                     public void run() {
-                        b.seekbar.setProgress(progress);
+                        b.seekbar.setProgress(pro);
                     }
                 });
     }
@@ -255,12 +261,20 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
                 @Override
                 public void prepared() {
-                    b.seekbar.setMax(mediamanager.getManager().getDuration()); // where duration is recieved
+                    float m = mediamanager.getManager().getDuration();
+
+                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");//初始化Formatter的转换格式。
+                    //取整
+                    m =  Math.abs(m);
+
+                    String hms = formatter.format(m);
+
+                    final String date = hms.substring(3,5) + ":" + hms.substring(6,hms.length());
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            b.totalTime.setText(String.valueOf(b.seekbar.getMax()));
+                            b.totalTime.setText(date);
                         }
                     });
                 }
