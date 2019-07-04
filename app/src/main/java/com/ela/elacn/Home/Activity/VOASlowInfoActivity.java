@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.SeekBar;
 
 import com.ela.elacn.$;
 import com.ela.elacn.Home.Model.VOAslowModel;
@@ -84,7 +86,7 @@ public class VOASlowInfoActivity extends AppCompatActivity{
     }
 
     @SuppressLint("ResourceAsColor")
-    private void initUI(){
+    private void initUI() {
 
 
         Toolbar toolbar = findViewById(R.id.voaslow_info_toolbar);
@@ -99,14 +101,14 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
         String[] textArray = text.split("\r\n");
 
-        for (int i= 0; i < textArray.length; i++){
+        for (int i = 0; i < textArray.length; i++) {
 
-            VOAslowTextInfoModel model = JSON.parseObject(textArray[i],VOAslowTextInfoModel.class);
+            VOAslowTextInfoModel model = JSON.parseObject(textArray[i], VOAslowTextInfoModel.class);
 
             dataSource.add(model);
         }
 
-        adapter = new VOASlowPlayInfoAdapter(dataSource,this);
+        adapter = new VOASlowPlayInfoAdapter(dataSource, this);
 
         b.voaSlowListView.setAdapter(adapter);
 
@@ -117,12 +119,15 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Uri url = Uri.parse(model.getData().getUrl());
                 String mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
+                int h1 = b.voaSlowListView.getHeight();
+                int h2 = b.voaSlowListView.getHeight();
 
-                b.voaSlowListView.smoothScrollToPosition(position);
+                b.voaSlowListView.smoothScrollToPositionFromTop(playIndex, h1 / 2 - h2 / 2);
                 playIndex = position;
                 playmp3(mp3Path);
             }
         });
+
     }
 
 

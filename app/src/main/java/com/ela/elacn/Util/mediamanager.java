@@ -33,6 +33,17 @@ public class mediamanager {
         return self;
     }
 
+
+    public int getDuration(){
+        return mp.getDuration();
+    }
+
+    public int getPosition(){
+        return mp.getCurrentPosition();
+    }
+
+
+
     private static Timer timer;
 
     public  void playMp3(String filepath, final int start, final int stop, completedPlay b) throws IOException {
@@ -61,6 +72,14 @@ public class mediamanager {
         mp.prepareAsync();
     }
 
+
+    public void skipto(int position){
+        mp.seekTo(position);
+    }
+
+    public boolean playstatus(){
+        return mp.isPlaying();
+    }
 
     public void stopMp3(){
         stopTimer();
