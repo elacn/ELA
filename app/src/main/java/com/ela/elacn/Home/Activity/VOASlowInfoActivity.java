@@ -51,6 +51,10 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
 
+    private Runnable runnable;
+
+    private Handler handler;
+
     private VOAslowModel model;
 
     private int playIndex = 0;
@@ -97,9 +101,15 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        b.seekbar.setMax(mediamanager.getManager().getDuration()); // where duration is recieved
+
+        b.totalTime.setText(mediamanager.getManager().getDuration());
+
         String text = model.getData().getText();
 
         String[] textArray = text.split("\r\n");
+
+
 
         for (int i = 0; i < textArray.length; i++) {
 
@@ -142,6 +152,42 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             }
         });
 
+
+        playCycle();
+
+        b.seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean input) {
+                if (input) {
+                    mediamanager.getManager().skipto(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    public void playCycle(){
+        b.seekbar.setProgress(mediamanager.getManager().getPosition());
+
+
+        if(mediamanager.getManager().playstatus()){
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    playCycle();
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
     }
 
 

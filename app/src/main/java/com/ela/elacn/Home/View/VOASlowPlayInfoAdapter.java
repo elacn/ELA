@@ -128,7 +128,7 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
             viewHolder.textview_cn.setTextColor(R.color.green);
         }else{
             simpleText.textColor(R.color.black);
-            viewHolder.textview_cn.setTextColor(R.color.grayColor);
+//            viewHolder.textview_cn.setTextColor(R.color.grayColor);
         }
 
         viewHolder.textview_en.setText(simpleText);
