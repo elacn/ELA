@@ -1,6 +1,8 @@
 package com.ela.elacn.Home.Model;
 
+import android.content.Intent;
 import android.view.ViewDebug;
+import android.widget.ImageView;
 
 public class VOAslowTextInfoModel {
 
@@ -15,7 +17,16 @@ public class VOAslowTextInfoModel {
 
         num+=Integer.parseInt(time[1])*60000;
 
-        num+=Integer.parseInt(time[2])*1000;
+        Integer d  = Integer.parseInt(time[3]);
+
+        if(d > 50){
+
+            num+=(Integer.parseInt(time[2]) +1) *1000;
+
+        }else {
+
+            num+=Integer.parseInt(time[2]) *1000;
+        }
 
         num+=Integer.parseInt(time[3]);
 
@@ -37,7 +48,16 @@ public class VOAslowTextInfoModel {
 
         num+=Integer.parseInt(time[1])*60000;
 
-        num+=Integer.parseInt(time[2])*1000;
+        Integer d  = Integer.parseInt(time[3]);
+
+        if(d > 50){
+
+            num+=(Integer.parseInt(time[2]) +1) *1000;
+
+        }else {
+
+            num+=Integer.parseInt(time[2]) *1000;
+        }
 
         num+=Integer.parseInt(time[3]);
 
