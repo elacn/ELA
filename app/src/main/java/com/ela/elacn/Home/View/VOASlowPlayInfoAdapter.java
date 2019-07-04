@@ -96,7 +96,7 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
 
         SimpleText simpleText = SimpleText.from(model.getEnglish());
 
-        simpleText.allStartWith("");
+        simpleText.allStartWith("","-",", ",",",".",". ");
 
         simpleText.tags(l);
 
@@ -114,25 +114,38 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
             }
         });
 
-        viewHolder.textview_cn.setOnClickListener(new View.OnClickListener() {
+        SimpleText simpleText_cn = SimpleText.from(model.getChinese());
+
+        simpleText_cn.all();
+
+        simpleText_cn.onClick(viewHolder.textview_cn, new OnTextClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClicked(CharSequence text, Range range, Object tag) {
 
                     listener.onItemClick(position);
+
             }
         });
 
 
         if(mSelect==position){
+            simpleText.allStartWith("");
             simpleText.textColor(R.color.green);
-            viewHolder.textview_cn.setTextColor(R.color.green);
+            simpleText_cn.textColor(R.color.green);
+            simpleText.pressedTextColor(R.color.colorAccent);
+            simpleText_cn.pressedTextColor(R.color.colorAccent);
+            simpleText_cn.pressedBackground(R.color.green);
         }else{
+            simpleText.all();
             simpleText.textColor(R.color.black);
-            viewHolder.textview_cn.setTextColor(R.color.grayColor);
+            simpleText_cn.textColor(R.color.grayColor);
+            simpleText.pressedTextColor(R.color.colorAccent);
+            simpleText_cn.pressedTextColor(R.color.colorAccent);
+            simpleText_cn.pressedBackground(R.color.grayColor);
         }
 
         viewHolder.textview_en.setText(simpleText);
-        viewHolder.textview_cn.setText(model.getChinese());
+        viewHolder.textview_cn.setText(simpleText_cn);
 
 
         return viewHolder.itemView;
@@ -196,12 +209,16 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
 
                         String translateString = new String();
 
-                        for (int i=0;i<translate.getExplains().size();i++){
+                        if(!(translate.getExplains() == null)){
 
-                            translateString = translateString + translate.getExplains().get(i);
+                            for (int i=0;i<translate.getExplains().size();i++){
+
+                                translateString = translateString + translate.getExplains().get(i);
+                            }
+
+                            Toast.makeText(context,translateString,Toast.LENGTH_SHORT).show();
+
                         }
-
-                        Toast.makeText(context,translateString,Toast.LENGTH_SHORT).show();
                     }
                 });
             }
