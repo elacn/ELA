@@ -110,11 +110,25 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
         b.voaSlowListView.setAdapter(adapter);
 
+        adapter.setListener(new VOASlowPlayInfoAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                adapter.changeSelected(position);//刷新
+                Uri url = Uri.parse(model.getData().getUrl());
+                String mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
+
+                b.voaSlowListView.smoothScrollToPosition(position);
+                playIndex = position;
+                playmp3(mp3Path);
+            }
+        });
+
         adapter.notifyDataSetChanged();
 
         b.voaSlowListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.changeSelected(position);//刷新
                 Uri url = Uri.parse(model.getData().getUrl());
                 String mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
 
@@ -124,8 +138,6 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             }
         });
     }
-
-
 
 
     public void downloadCheck() {
@@ -161,9 +173,15 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             mediamanager.getManager().playMp3(mp3Path, dataSource.get(playIndex).getStart(), dataSource.get(playIndex).getEnd(), new mediamanager.completedPlay() {
                 @Override
                 public void playercallback() {
-                    if(playIndex <= dataSource.size()){
+                    if(playIndex < dataSource.size()){
                         playIndex++;
-                        //b.voaSlowListView.smoothScrollToPosition(playIndex);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                adapter.changeSelected(playIndex);//刷新
+                            }
+                        });
                         int h1 = b.voaSlowListView.getHeight();
                         int h2 = b.voaSlowListView.getHeight();
 
