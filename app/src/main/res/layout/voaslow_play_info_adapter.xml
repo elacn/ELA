@@ -14,13 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:text=""
+            android:text="Hello"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:textColor="@color/black"
             android:lineSpacingMultiplier="1.5"
-            android:clickable="false"
 
             />
 
@@ -33,11 +32,9 @@
             android:layout_alignStart="@id/voaSlow_en_TextView"
             android:layout_marginTop="5dp"
             android:fontFamily="monospace"
-            android:text=""
-            android:textColor="@color/colorPrimaryDark"
+            android:text="Hello1"
+            android:textColor="@color/grayColor"
             android:lineSpacingMultiplier="1.5"
-            android:clickable="false"
-
             />
 
     </RelativeLayout>

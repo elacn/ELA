@@ -1,11 +1,13 @@
 package com.ela.elacn.Home.View;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +33,10 @@ import java.util.List;
 
 public class VOASlowPlayInfoAdapter extends BaseAdapter {
 
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
     private ArrayList<VOAslowTextInfoModel> dataSource;
 
     private Context context;
@@ -39,6 +45,13 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
         this.context = context;
         this.dataSource = dataSource;
     }
+
+
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    private OnItemClickListener listener;
 
     @Override
     public int getCount() {
@@ -55,8 +68,9 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         ViewHolder viewHolder;
 
         if(view == null) {
@@ -86,20 +100,51 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
 
         simpleText.tags(l);
 
-        /*
         simpleText.onClick(viewHolder.textview_en, new OnTextClickListener() {
             @Override
             public void onClicked(CharSequence text, Range range, Object tag) {
 
-                QueryTranslation(String.valueOf(text));
+                if(mSelect == position){
+
+                    QueryTranslation(String.valueOf(text));
+                }else {
+
+                    listener.onItemClick(position);
+                }
             }
         });
-*/
+
+        viewHolder.textview_cn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    listener.onItemClick(position);
+            }
+        });
+
+
+        if(mSelect==position){
+            simpleText.textColor(R.color.green);
+            viewHolder.textview_cn.setTextColor(R.color.green);
+        }else{
+            simpleText.textColor(R.color.black);
+            viewHolder.textview_cn.setTextColor(R.color.grayColor);
+        }
+
         viewHolder.textview_en.setText(simpleText);
         viewHolder.textview_cn.setText(model.getChinese());
 
 
         return viewHolder.itemView;
+    }
+
+    private int mSelect = 0;   //选中项
+
+    public void changeSelected(int positon){ //刷新方法
+        if(positon != mSelect){
+            mSelect = positon;
+            notifyDataSetChanged();
+        }
     }
 
     public static class ViewHolder{
