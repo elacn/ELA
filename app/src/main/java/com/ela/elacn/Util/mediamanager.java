@@ -11,10 +11,28 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class mediamanager {
+public class mediamanager implements Runnable {
+
+    @Override
+    public void run() {
+
+        while (true) {
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if (block != null) block.progresstrack(mp.getCurrentPosition());
+        }
+
+    }
 
     public interface completedPlay{
         void playercallback();
+        void prepared();
+        void progresstrack(int postion);
     }
 
     private static mediamanager self;
@@ -28,6 +46,7 @@ public class mediamanager {
             synchronized (mediamanager.class) {
                 mp = new MediaPlayer();
                 self = new mediamanager();
+                new Thread(self).start();
             }
         }
         return self;
@@ -41,7 +60,6 @@ public class mediamanager {
     public int getPosition(){
         return mp.getCurrentPosition();
     }
-
 
 
     private static Timer timer;
@@ -58,17 +76,21 @@ public class mediamanager {
         mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(final MediaPlayer mp) {
+                if(block != null) block.prepared();
                 mp.seekTo(start);
                 mp.start();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        if (block != null) block.playercallback();
+                        if (block != null){
+                            block.playercallback();
+                        }
                         mp.stop();
                     }
                 }, stop - start);
             }
         });
+
         mp.prepareAsync();
     }
 

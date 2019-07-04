@@ -6,9 +6,12 @@ import android.content.pm.PackageManager;
 import android.database.DatabaseUtils;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -101,9 +104,6 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        b.seekbar.setMax(mediamanager.getManager().getDuration()); // where duration is recieved
-
-        b.totalTime.setText(mediamanager.getManager().getDuration());
 
         String text = model.getData().getText();
 
@@ -152,9 +152,6 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             }
         });
 
-
-        playCycle();
-
         b.seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean input) {
@@ -175,20 +172,17 @@ public class VOASlowInfoActivity extends AppCompatActivity{
         });
     }
 
-    public void playCycle(){
-        b.seekbar.setProgress(mediamanager.getManager().getPosition());
+    public void playCycle(final int progress){
 
-
-        if(mediamanager.getManager().playstatus()){
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    playCycle();
-                }
-            };
-            handler.postDelayed(runnable, 1000);
-        }
+                b.seekbar.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        b.seekbar.setProgress(progress);
+                    }
+                });
     }
+
+
 
 
     public void downloadCheck() {
@@ -224,8 +218,9 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             mediamanager.getManager().playMp3(mp3Path, dataSource.get(playIndex).getStart(), dataSource.get(playIndex).getEnd(), new mediamanager.completedPlay() {
                 @Override
                 public void playercallback() {
+                    playIndex++;
                     if(playIndex < dataSource.size()){
-                        playIndex++;
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -238,9 +233,31 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
                         b.voaSlowListView.smoothScrollToPositionFromTop(playIndex, h1/2 - h2/2);
                         playmp3(mp3Path);
-                    }
+                    }else {
 
+                        playIndex = 0;
+                        b.voaSlowListView.smoothScrollToPosition(playIndex);
+                        playmp3(mp3Path);
+                    }
                 }
+
+                @Override
+                public void prepared() {
+                    b.seekbar.setMax(mediamanager.getManager().getDuration()); // where duration is recieved
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            b.totalTime.setText(String.valueOf(b.seekbar.getMax()));
+                        }
+                    });
+                }
+
+                @Override
+                public void progresstrack(int postion) {
+                    playCycle(postion);
+                }
+
             });
         } catch (IOException e) {
             e.printStackTrace();
