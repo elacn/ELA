@@ -87,6 +87,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
                <ImageView
+                   android:id="@+id/previousButton"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:layout_gravity="center"
@@ -96,7 +97,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                    android:src="@drawable/iconskip" />
 
                <ImageView
-                   android:id="@+id/activityButton"
+                   android:id="@+id/playpauseButton"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:layout_gravity="center"
@@ -105,6 +106,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                    android:src="@drawable/download" />
 
                <ImageView
+                   android:id="@+id/nextButton"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:layout_gravity="center"

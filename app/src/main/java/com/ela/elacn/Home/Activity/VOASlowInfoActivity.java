@@ -64,6 +64,8 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
     private int playIndex = 0;
 
+    private String mp3Path;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,15 +86,102 @@ public class VOASlowInfoActivity extends AppCompatActivity{
                 }
             }
         }
+        b.nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                next(mp3Path);
+            }
+        });
+
+        b.previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                previous(mp3Path);
+            }
+        });
+
+        b.playpauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         FileDownloader.setup(this);
 
         model = (VOAslowModel)getIntent().getSerializableExtra("data");
 
+        Uri url = Uri.parse(model.getData().getUrl());
+        mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
+
         initUI();
 
         downloadCheck();
     }
+
+    private void previous(String mp3Path){
+        playIndex--;
+        if(playIndex >= 0){
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    int h1 = b.voaSlowListView.getHeight();
+                    int h2 = b.voaSlowListView.getHeight();
+
+                    b.voaSlowListView.smoothScrollToPositionFromTop(playIndex, h1/2 - h2/2);
+                    adapter.changeSelected(playIndex);//刷新
+                }
+            });
+            playmp3(mp3Path);
+        }else {
+
+            playIndex = dataSource.size()-1;
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    b.voaSlowListView.smoothScrollToPosition(playIndex);
+                    adapter.changeSelected(playIndex);//刷新
+                }
+            });
+            playmp3(mp3Path);
+        }
+    }
+    private void next(String mp3Path){
+        playIndex++;
+        if(playIndex < dataSource.size()){
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int h1 = b.voaSlowListView.getHeight();
+                    int h2 = b.voaSlowListView.getHeight();
+                    b.voaSlowListView.smoothScrollToPositionFromTop(playIndex, h1/2 - h2/2);
+                    adapter.changeSelected(playIndex);//刷新
+                }
+            });
+
+            playmp3(mp3Path);
+        }else {
+
+            playIndex = 0;
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    b.voaSlowListView.smoothScrollToPosition(playIndex);
+                    adapter.changeSelected(playIndex);//刷新
+                }
+            });
+
+            playmp3(mp3Path);
+        }
+    }
+
 
     @SuppressLint("ResourceAsColor")
     private void initUI() {
@@ -128,8 +217,7 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             @Override
             public void onItemClick(int position) {
                 adapter.changeSelected(position);//刷新
-                Uri url = Uri.parse(model.getData().getUrl());
-                String mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
+
 
                 b.voaSlowListView.smoothScrollToPosition(position);
                 playIndex = position;
@@ -143,8 +231,6 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 adapter.changeSelected(position);//刷新
-                Uri url = Uri.parse(model.getData().getUrl());
-                String mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
                 int h1 = b.voaSlowListView.getHeight();
                 int h2 = b.voaSlowListView.getHeight();
 
@@ -193,9 +279,9 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
     public void downloadCheck() {
 
-        Uri url = Uri.parse(model.getData().getUrl());
 
-        String mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
+
+
 
 
         if (FileUtil.checkFile($.MP3_DIRECTORY)) {
@@ -227,36 +313,7 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             mediamanager.getManager().playMp3(mp3Path, start, playIndex == dataSource.size()-1 ? (end - start) * 2 : end - start, new mediamanager.completedPlay() {
                 @Override
                 public void playercallback() {
-                    playIndex++;
-                    if(playIndex < dataSource.size()){
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                adapter.changeSelected(playIndex);//刷新
-                            }
-                        });
-                        int h1 = b.voaSlowListView.getHeight();
-                        int h2 = b.voaSlowListView.getHeight();
-
-                        b.voaSlowListView.smoothScrollToPositionFromTop(playIndex, h1/2 - h2/2);
-                        playmp3(mp3Path);
-                    }else {
-
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                adapter.changeSelected(playIndex);//刷新
-                            }
-                        });
-
-                        playIndex = 0;
-                        b.voaSlowListView.smoothScrollToPosition(playIndex);
-                        playmp3(mp3Path);
-                    }
+                    next(mp3Path);
                 }
 
                 @Override
