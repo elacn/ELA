@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.view.ViewDebug;
 import android.widget.ImageView;
 
-public class VOAslowTextInfoModel {
+import java.io.Serializable;
 
+public class VOAslowTextInfoModel implements Serializable {
 
+    private static final long serialVersionUID = 1042273L;
     public int getStart() {
         String[] time = start.split("[.:]");
         String timeString = "";

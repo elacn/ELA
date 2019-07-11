@@ -1,0 +1,35 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:background="@color/white"
+            android:title="Speaking Practice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </Toolbar>
+
+        <ListView
+            android:id="@+id/speakinglist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
+
+
+
+        </ListView>
+
+
+
+    </RelativeLayout>
+
+</layout>

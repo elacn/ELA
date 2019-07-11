@@ -41,9 +41,12 @@ public class mediamanager implements Runnable {
 
     private static completedPlay block;
 
+    private static int pausedTime;
+
     public static mediamanager getManager(){
         if(self == null){
             synchronized (mediamanager.class) {
+                pausedTime = 0;
                 mp = new MediaPlayer();
                 self = new mediamanager();
                 new Thread(self).start();
@@ -61,8 +64,23 @@ public class mediamanager implements Runnable {
         return mp.getCurrentPosition();
     }
 
+    public void playAt(String mp3,int endtime){
 
+        try {
+            playMp3(mp3, pausedTime,  endtime - pausedTime,block);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void pauseAt(){
+        pausedTime = mediamanager.getManager().getPosition();
+        stopTimer();
+        mp.stop();
+
+    }
     private static Timer timer;
+
 
     public  void playMp3(String filepath, final int start,final int delay, completedPlay b) throws IOException {
 

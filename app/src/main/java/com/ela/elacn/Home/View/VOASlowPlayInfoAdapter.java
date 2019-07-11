@@ -35,6 +35,7 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
 
     public interface OnItemClickListener{
         void onItemClick(int position);
+        void onTextClick(String what);
     }
 
     private ArrayList<VOAslowTextInfoModel> dataSource;
@@ -106,7 +107,8 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
 
                 if(mSelect == position){
 
-                    QueryTranslation(String.valueOf(text));
+                    listener.onTextClick(String.valueOf(text));
+
                 }else {
 
                     listener.onItemClick(position);
@@ -153,9 +155,9 @@ public class VOASlowPlayInfoAdapter extends BaseAdapter {
 
     private int mSelect = 0;   //选中项
 
-    public void changeSelected(int positon){ //刷新方法
-        if(positon != mSelect){
-            mSelect = positon;
+    public void changeSelected(int position){ //刷新方法
+        if(position != mSelect){
+            mSelect = position;
             notifyDataSetChanged();
         }
     }

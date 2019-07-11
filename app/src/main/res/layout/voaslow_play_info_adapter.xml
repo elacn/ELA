@@ -13,29 +13,28 @@
             android:id="@+id/voaSlow_en_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:text="Hello"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
-            android:textColor="@color/green"
-            android:lineSpacingMultiplier="1.5"
+            android:layout_marginRight="15dp"
+            android:fontFamily="@font/neuton"
+            android:lineSpacingMultiplier="1.2"
+            android:text="Hello"
 
-            />
+            android:textColor="@color/green"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/voaSlow_cn_TextView"
-            android:layout_below="@id/voaSlow_en_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/voaSlow_en_TextView"
+            android:layout_below="@id/voaSlow_en_TextView"
             android:layout_alignStart="@id/voaSlow_en_TextView"
-            android:layout_marginTop="5dp"
-            android:fontFamily="monospace"
+            android:layout_alignEnd="@id/voaSlow_en_TextView"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/noto_serif"
+            android:lineSpacingMultiplier="1.2"
             android:text="Hello1"
-            android:textColor="@color/grayColor"
-            android:lineSpacingMultiplier="1.5"
-            />
+            android:textColor="@color/grayColor" />
 
     </RelativeLayout>
 

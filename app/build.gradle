@@ -50,5 +50,5 @@ dependencies {
     implementation 'com.liulishuo.filedownloader:library:1.7.6'
     //filedownloader
     implementation 'com.xw.repo:bubbleseekbar:3.20-lite'
-     // progress
+    // progress
 }

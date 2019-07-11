@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:textSize="23sp"
+            android:id="@+id/speakingpractice_en"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="15dp"
+            android:fontFamily="@font/neuton"
+            android:lineSpacingMultiplier="0.75"
+            android:text="Hello"
+            android:gravity="center"
+
+            android:textColor="@color/black" />
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/speakingpractice_cn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/speakingpractice_en"
+            android:layout_alignStart="@id/speakingpractice_en"
+            android:layout_alignEnd="@id/speakingpractice_en"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/noto_serif"
+            android:lineSpacingMultiplier="1.2"
+            android:text="Hello1"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/record"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/speakingpractice_cn"
+            android:layout_alignStart="@id/speakingpractice_cn"
+            android:layout_alignEnd="@id/speakingpractice_cn"
+            android:src="@drawable/playlarge"
+            />
+
+            <View
+            android:id="@+id/mask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@id/record"
+            android:background="#C2C2C2"
+            android:alpha="0.8"
+            />
+
+    </RelativeLayout>
+
+</layout>
