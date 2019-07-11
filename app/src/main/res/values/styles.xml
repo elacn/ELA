@@ -40,7 +40,7 @@
     </style>
 
     <style name="OverflowButtonStyle" parent="android:Widget.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_menu_share</item>
+        <item name="android:src">@drawable/recordicon</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
     </style>
 
@@ -48,6 +48,8 @@
     <style name="ToolbarTheme">
         <!-- Used to tint the back arrow, menu and spinner arrow -->
         <item name="colorControlNormal">@color/black</item>
+
     </style>
+
 
 </resources>

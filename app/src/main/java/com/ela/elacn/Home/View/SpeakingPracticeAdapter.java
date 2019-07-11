@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,19 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
     }
 
 
+    public interface onclickbuttonlistener{
+        void clickplay(ImageView button, VOAslowTextInfoModel model, int position);
+        void clickrecord(ImageView button, VOAslowTextInfoModel model, int position);
+        void clickplayBack(ImageView button, VOAslowTextInfoModel model, int position);
+    }
+
+
+    public void setListener(onclickbuttonlistener listener) {
+        this.listener = listener;
+    }
+
+    private onclickbuttonlistener listener;
+
 
     private ArrayList<VOAslowTextInfoModel> dataSource;
 
@@ -58,6 +72,10 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
     public View getView(final int position, View view, ViewGroup parent) {
         ViewHolder viewHolder;
 
+
+
+
+
         if(view == null) {
 
             View layoutView = LayoutInflater.from(context).inflate(R.layout.speaking_practice_adapter, parent, false);
@@ -68,15 +86,24 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)view.getTag();
         }
 
-        VOAslowTextInfoModel model = dataSource.get(position);
+        final VOAslowTextInfoModel model = dataSource.get(position);
 
         if(mSelect==position){
-            viewHolder.record.setVisibility(View.VISIBLE);
+            viewHolder.iconpanel.setVisibility(View.VISIBLE);
            viewHolder.mask.setAlpha(0);
         }else{
-            viewHolder.record.setVisibility(View.INVISIBLE);
+            viewHolder.iconpanel.setVisibility(View.GONE);
            viewHolder.mask.setAlpha(0.3f);
         }
+
+        viewHolder.playAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null)listener.clickplay((ImageView)v, dataSource.get(position), position);
+            }
+        });
+
+
 
         viewHolder.english_text.setText(model.getEnglish());
         viewHolder.chinese_text.setText(model.getChinese());
@@ -92,10 +119,16 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
         private TextView chinese_text;
         private View mask;
         private ImageView record;
+        private ImageView playAudio;
+        private ImageView playBack;
+        private LinearLayout iconpanel;
 
         public ViewHolder(View itemView){
             this.itemView = itemView;
+            iconpanel = itemView.findViewById(R.id.buttonPanel);
             record = itemView.findViewById(R.id.record);
+            playBack = itemView.findViewById(R.id.playback);
+            playAudio = itemView.findViewById(R.id.playaudio);
             mask = itemView.findViewById(R.id.mask);
             english_text = itemView.findViewById(R.id.speakingpractice_en);
             chinese_text = itemView.findViewById(R.id.speakingpractice_cn);
@@ -110,6 +143,8 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
         if(positon != mSelect){
             mSelect = positon;
             notifyDataSetChanged();
+
+
         }
     }
 

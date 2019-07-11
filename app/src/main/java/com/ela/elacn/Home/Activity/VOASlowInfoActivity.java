@@ -132,6 +132,30 @@ public class VOASlowInfoActivity extends AppCompatActivity{
         downloadCheck();
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                Intent intent = new Intent(this,SpeakingPractice.class);
+                intent.putExtra("data",dataSource);
+                intent.putExtra("model",model);
+                mediamanager.getManager().stopMp3();
+                startActivity(intent);
+
+                return true;
+            case android.R.id.home:
+                this.finish();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
     private void pauseplay(String mp3Path){
        Integer tag = Integer.valueOf(b.playpauseButton.getTag().toString());
         if(tag == 1){ // selected
@@ -186,16 +210,6 @@ public class VOASlowInfoActivity extends AppCompatActivity{
     }
     private void next(String mp3Path){
 
-
-
-
-        Intent intent = new Intent(this,SpeakingPractice.class);
-        intent.putExtra("data",dataSource);
-        startActivity(intent);
-
-
-
-        /*
         playIndex++;
         if(playIndex < dataSource.size()){
 
@@ -231,7 +245,6 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             playmp3(mp3Path);
 
         }
-        */
     }
 
 
@@ -270,6 +283,7 @@ public class VOASlowInfoActivity extends AppCompatActivity{
         adapter.setListener(new VOASlowPlayInfoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+
                 t.hidden();
                 adapter.changeSelected(position);//刷新
                 b.voaSlowListView.smoothScrollToPosition(position);
