@@ -145,6 +145,7 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
                 return true;
             case android.R.id.home:
+                
                 this.finish();
                 return true;
 
