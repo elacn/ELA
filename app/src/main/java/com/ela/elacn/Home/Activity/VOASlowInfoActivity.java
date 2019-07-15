@@ -46,6 +46,10 @@ import com.ela.elacn.databinding.ActivityVoaslowInfoBinding;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.youdao.speechEvaluator.SpEvaLanguage;
+import com.youdao.speechEvaluator.SpEvaListener;
+import com.youdao.speechEvaluator.SpEvaParameters;
+import com.youdao.speechEvaluator.SpeechEvaluate;
 
 import java.io.File;
 import java.io.IOException;
@@ -467,6 +471,18 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
     }
 
+    private SpEvaParameters mSpEvaParameters = new SpEvaParameters.Builder()
+            .channel(1)
+            .language(SpEvaLanguage.ENGLISH)
+            .rate(16000)
+            .timeout(100000)
+            .format("wav")
+            .build();
+
+    private void evaluate(String base64AudioData,String spEvaText, SpEvaListener listener){
+
+        SpeechEvaluate.getInstance(mSpEvaParameters).evaluate(base64AudioData, spEvaText, listener);
+    }
 
     @Override
     protected void onDestroy() {
