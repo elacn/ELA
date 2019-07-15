@@ -55,6 +55,18 @@ public class mediamanager implements Runnable {
         return self;
     }
 
+    public void simplePlay(String mp3) throws IOException {
+        mp.reset();
+        mp.setDataSource(mp3);
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+
+            }
+        });
+        mp.prepare();
+        mp.start();
+    }
 
     public int getDuration(){
         return mp.getDuration();

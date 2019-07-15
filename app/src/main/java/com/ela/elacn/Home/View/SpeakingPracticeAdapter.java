@@ -103,6 +103,20 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
             }
         });
 
+        viewHolder.record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener!= null)listener.clickrecord((ImageView)v, dataSource.get(position), position);
+            }
+        });
+
+        viewHolder.playBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener!= null)listener.clickplayBack((ImageView)v, dataSource.get(position), position);
+            }
+        });
+
 
 
         viewHolder.english_text.setText(model.getEnglish());

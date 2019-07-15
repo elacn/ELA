@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.ela.elacn.$;
 
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class StringUtils {
@@ -97,6 +99,24 @@ public class StringUtils {
                 r = $.nonull(j) + p;
         }
         return r;
+    }
+
+    public static String md5encode(String toencode){
+        if(toencode.isEmpty()) return "";
+
+        byte[] bytesOfMessage = toencode.getBytes();
+
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] thedigest = md.digest(bytesOfMessage);
+
+        String data = new String(thedigest);
+
+        return data;
     }
 
 }

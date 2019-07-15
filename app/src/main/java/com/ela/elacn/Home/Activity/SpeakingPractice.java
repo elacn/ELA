@@ -1,9 +1,15 @@
 package com.ela.elacn.Home.Activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
+import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +26,10 @@ import com.ela.elacn.Home.Model.VOAslowTextInfoModel;
 import com.ela.elacn.Home.View.SpeakingPracticeAdapter;
 import com.ela.elacn.Home.View.VOAslow;
 import com.ela.elacn.R;
+import com.ela.elacn.Util.StringUtils;
 import com.ela.elacn.Util.mediamanager;
+import com.ela.elacn.Util.permissioncheck;
+import com.ela.elacn.Util.recordermanager;
 import com.ela.elacn.databinding.ActivitySpeakingPracticeBinding;
 import com.ela.elacn.databinding.SpeakingPracticeAdapterBinding;
 
@@ -47,6 +56,9 @@ public class SpeakingPractice extends AppCompatActivity {
 
     private boolean status = false;
 
+    final String recordpath = Environment.getExternalStorageDirectory()
+            .getAbsolutePath() +"/myrecording.mp3";
+
 
 
 
@@ -63,8 +75,6 @@ public class SpeakingPractice extends AppCompatActivity {
         Uri url = Uri.parse(model.getData().getUrl());
 
         mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
-
-
 
 
         playmp3(datasource.get(0));
@@ -96,6 +106,7 @@ public class SpeakingPractice extends AppCompatActivity {
     }
 
 
+    @SuppressLint("ResourceAsColor")
     public void INITUI(){
 
         Toolbar toolbar = findViewById(R.id.toolbarSPEECH);
@@ -140,11 +151,51 @@ public class SpeakingPractice extends AppCompatActivity {
 
            @Override
            public void clickrecord(ImageView button, VOAslowTextInfoModel model, int position) {
-                
+
+               mediamanager.getManager().stopMp3();
+
+               Integer tag = Integer.valueOf(button.getTag().toString());
+               String md5String = StringUtils.md5encode(model.getEnglish());
+               md5String = "123";
+
+               if(permissioncheck.checkpermissions(SpeakingPractice.this, Manifest.permission.RECORD_AUDIO)){
+
+                if(tag == 1){
+                    button.setImageResource(R.drawable.stop);
+                    try {
+
+                        recordermanager.getManager().record(recordpath, MediaRecorder.OutputFormat.MPEG_2_TS,MediaRecorder.AudioEncoder.AAC);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    button.setTag(0);
+                } else{
+                    button.setImageResource(R.drawable.recordicon);
+                   recordermanager.getManager().stopRecord();
+                    button.setTag(0);
+                }
+
+
+
+            }else {
+
+                permissioncheck.requestpermission(SpeakingPractice.this,SpeakingPractice.this,1,new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE});
+             }
+
            }
 
            @Override
            public void clickplayBack(ImageView button, VOAslowTextInfoModel model, int position) {
+
+               String md5String = StringUtils.md5encode(model.getEnglish());
+               md5String = "123";
+
+               try {
+                   mediamanager.getManager().simplePlay(recordpath);
+               } catch (IOException error) {
+                   error.printStackTrace();
+               }
+
 
            }
        });
@@ -184,5 +235,6 @@ public class SpeakingPractice extends AppCompatActivity {
 
         mediamanager.getManager().stopMp3();
     }
+
 
 }
