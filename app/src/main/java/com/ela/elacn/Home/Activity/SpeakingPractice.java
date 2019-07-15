@@ -140,7 +140,7 @@ public class SpeakingPractice extends AppCompatActivity {
 
            @Override
            public void clickrecord(ImageView button, VOAslowTextInfoModel model, int position) {
-
+                
            }
 
            @Override
