@@ -471,18 +471,7 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
     }
 
-    private SpEvaParameters mSpEvaParameters = new SpEvaParameters.Builder()
-            .channel(1)
-            .language(SpEvaLanguage.ENGLISH)
-            .rate(16000)
-            .timeout(100000)
-            .format("wav")
-            .build();
 
-    private void evaluate(String base64AudioData,String spEvaText, SpEvaListener listener){
-
-        SpeechEvaluate.getInstance(mSpEvaParameters).evaluate(base64AudioData, spEvaText, listener);
-    }
 
     @Override
     protected void onDestroy() {

@@ -11,6 +11,8 @@ public class recordermanager {
     private static MediaRecorder recorder;
     private static recordermanager instance;
 
+    private static boolean isMRecorder = false;
+
     public static recordermanager getManager(){
 
         if(instance==null){
@@ -22,10 +24,9 @@ public class recordermanager {
         return instance;
     }
 
-
-
     public void record(String savepath, int format, int encoder) throws IOException {
-
+        stopRecord();
+        isMRecorder = true;
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(format);
         recorder.setOutputFile(savepath);
@@ -39,7 +40,10 @@ public class recordermanager {
     }
 
     public void stopRecord(){
-        recorder.stop();
+        if(isMRecorder){
+            recorder.stop();
+        }
+        isMRecorder = false;
     }
 
 

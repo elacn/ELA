@@ -40,9 +40,9 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
 
 
     public interface onclickbuttonlistener{
-        void clickplay(ImageView button, VOAslowTextInfoModel model, int position);
-        void clickrecord(ImageView button, VOAslowTextInfoModel model, int position);
-        void clickplayBack(ImageView button, VOAslowTextInfoModel model, int position);
+        void clickplay(ViewHolder holder, VOAslowTextInfoModel model, int position);
+        void clickrecord(ViewHolder holder, VOAslowTextInfoModel model, int position);
+        void clickplayBack(ViewHolder holder, VOAslowTextInfoModel model, int position);
     }
 
 
@@ -70,7 +70,7 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
 
 
 
@@ -99,21 +99,21 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
         viewHolder.playAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(listener != null)listener.clickplay((ImageView)v, dataSource.get(position), position);
+                if(listener != null)listener.clickplay(viewHolder, dataSource.get(position), position);
             }
         });
 
         viewHolder.record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(listener!= null)listener.clickrecord((ImageView)v, dataSource.get(position), position);
+                if(listener!= null)listener.clickrecord((viewHolder), dataSource.get(position), position);
             }
         });
 
         viewHolder.playBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(listener!= null)listener.clickplayBack((ImageView)v, dataSource.get(position), position);
+                if(listener!= null)listener.clickplayBack((viewHolder), dataSource.get(position), position);
             }
         });
 
@@ -128,14 +128,14 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
 
     public static class ViewHolder{
 
-        private View itemView;
-        private TextView english_text;
-        private TextView chinese_text;
-        private View mask;
-        private ImageView record;
-        private ImageView playAudio;
-        private ImageView playBack;
-        private LinearLayout iconpanel;
+        public View itemView;
+        public TextView english_text;
+        public TextView chinese_text;
+        public View mask;
+        public ImageView record;
+        public ImageView playAudio;
+        public ImageView playBack;
+        public LinearLayout iconpanel;
 
         public ViewHolder(View itemView){
             this.itemView = itemView;
