@@ -118,9 +118,16 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
         });
 
 
+        if(model.getTxtcolor() != null){
+            viewHolder.english_text.setText(model.getTxtcolor());
+            viewHolder.chinese_text.setText(model.getChinese());
 
-        viewHolder.english_text.setText(model.getEnglish());
-        viewHolder.chinese_text.setText(model.getChinese());
+        }
+        else{
+
+            viewHolder.english_text.setText(model.getEnglish());
+            viewHolder.chinese_text.setText(model.getChinese());
+        }
 
 
         return viewHolder.itemView;

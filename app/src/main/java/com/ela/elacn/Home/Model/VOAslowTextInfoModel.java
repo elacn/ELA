@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.view.ViewDebug;
 import android.widget.ImageView;
 
+import com.binaryfork.spanny.Spanny;
+
 import java.io.Serializable;
 
 public class VOAslowTextInfoModel implements Serializable {
@@ -93,4 +95,18 @@ public class VOAslowTextInfoModel implements Serializable {
     private String chinese;
 
     private String english;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Spanny getTxtcolor() {
+        return txtcolor;
+    }
+
+    public void setTxtcolor(Spanny txtcolor) {
+        this.txtcolor = txtcolor;
+    }
+
+    private Spanny txtcolor;
 }

@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.binaryfork.spanny.Spanny;
 import com.ela.elacn.$;
 import com.ela.elacn.Home.Model.VOAslowModel;
 import com.ela.elacn.Home.Model.VOAslowTextInfoModel;
@@ -81,7 +82,6 @@ public class SpeakingPractice extends AppCompatActivity {
 
     private VOAslowModel model;
 
-    private boolean status = false;
 
     final String recordpath = Environment.getExternalStorageDirectory()
             .getAbsolutePath();
@@ -105,7 +105,6 @@ public class SpeakingPractice extends AppCompatActivity {
 
 
         playmp3(datasource.get(0));
-        status = true;
 
 
         AndroidAudioConverter.load(this, new ILoadCallback() {
@@ -167,7 +166,6 @@ public class SpeakingPractice extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 speakingPracticeAdapter.changeSelected(position);
                 playmp3(datasource.get(position));
-                status = true;
             }
         });
 
@@ -176,24 +174,22 @@ public class SpeakingPractice extends AppCompatActivity {
        speakingPracticeAdapter.setListener(new SpeakingPracticeAdapter.onclickbuttonlistener() {
            @Override
            public void clickplay(SpeakingPracticeAdapter.ViewHolder holder, VOAslowTextInfoModel model, int position) {
-               if(status == false){
-                   status = true;
+               Integer tag = Integer.valueOf(holder.record.getTag().toString());
+               if(tag == 1){
                    playmp3(model);
                    holder.playAudio.setImageResource(R.drawable.pauseicon);
                }
                else{
-                   status = false;
                    pausemp3();
                    holder.playAudio.setImageResource(R.drawable.playlarge);
                }
            }
 
            @Override
-           public void clickrecord(final SpeakingPracticeAdapter.ViewHolder holder, final VOAslowTextInfoModel model, int position) {
+           public void clickrecord(final SpeakingPracticeAdapter.ViewHolder holder, final VOAslowTextInfoModel model, final int position) {
 
                mediamanager.getManager().stopMp3();
                holder.playAudio.setImageResource(R.drawable.playlarge);
-               status = false;
                Integer tag = Integer.valueOf(holder.record.getTag().toString());
                String md5String = StringUtils.md5encode(model.getEnglish());
 
@@ -210,9 +206,8 @@ public class SpeakingPractice extends AppCompatActivity {
                     holder.record.setTag(0);
                 } else{
                     holder.record.setImageResource(R.drawable.recordicon);
-                   recordermanager.getManager().stopRecord();
                     holder.record.setTag(1);
-
+                    recordermanager.getManager().stopRecord();
                     grade(md5String + ".mp3", model.getEnglish(), new SpEvaListener() {
                         @Override
                         public void onError(int i) {
@@ -225,7 +220,7 @@ public class SpeakingPractice extends AppCompatActivity {
 
                             speechmodel spmodel = JSON.parseObject(spEvaResult.getJson(),speechmodel.class);
                             Log.e("GRADE", s);
-                            settextcolor(model.getEnglish(), spmodel.getWords(),holder.english_text );
+                            settextcolor(model.getEnglish(), spmodel.getWords(),holder.english_text,position );
                         }
                     });
                 }
@@ -257,14 +252,11 @@ public class SpeakingPractice extends AppCompatActivity {
     }
 
     @SuppressLint("ResourceAsColor")
-    private void settextcolor(String key, ArrayList<wordobject> userspeech, TextView textView){
-
-
-
+    private void settextcolor(String key, ArrayList<wordobject> userspeech, TextView textView, int position){
 
         final String[] englisharray = key.split(" ");
 
-        SpannableString spannable = new SpannableString(key);
+        Spanny spannable = new Spanny();
 
         for (int i =0; i < englisharray.length; i++) {
 
@@ -273,17 +265,19 @@ public class SpeakingPractice extends AppCompatActivity {
 
 
             if(userspeech.get(i).getPronunciation() >= 50){
-                spannable.setSpan(new ForegroundColorSpan(R.color.green),start,end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                spannable.append(" " + englisharray[i], new ForegroundColorSpan(Color.GREEN));
             }else{
-                spannable.setSpan(new ForegroundColorSpan(Color.RED),start,end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                spannable.append(" " + englisharray[i], new ForegroundColorSpan(Color.RED));
             }
         }
+
+        datasource.get(position).setTxtcolor(spannable);
         textView.setText(spannable);
     }
 
+
+
     private void grade(String filename, final String key, final SpEvaListener listener){
-
-
         File mp3path = new File($.ROOT_DIR,filename);
         IConvertCallback callback = new IConvertCallback() {
             @Override

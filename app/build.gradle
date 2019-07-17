@@ -53,5 +53,7 @@ dependencies {
     implementation 'com.xw.repo:bubbleseekbar:3.20-lite'
     // progress
     implementation 'com.github.adrielcafe:AndroidAudioConverter:0.0.8'
+    //convert to wav
+    implementation 'com.binaryfork:spanny:1.0.4'
 
 }
