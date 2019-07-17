@@ -12,12 +12,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ela.elacn.$;
 import com.ela.elacn.Home.View.VOAslow;
 import com.ela.elacn.Model.Result;
 import com.ela.elacn.R;
 import com.ela.elacn.Util.ReqClient;
+import com.ela.elacn.Util.clearCache;
 import com.ela.elacn.databinding.ActivityHomeBinding;
 import com.loopj.android.http.RequestParams;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -54,7 +56,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setNavigationItemSelectedListener(this);
             initUI();
 
-            loadData();
+//            loadData();
 
         }
 
@@ -104,7 +106,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             } else if (id == R.id.nav_tools) {
 
+                Toast.makeText(this,String.valueOf(clearCache.getSize($.ROOT_DIR)), Toast.LENGTH_SHORT).show();
+
             } else if (id == R.id.nav_share) {
+                clearCache.clearCache($.MP3_DIRECTORY);
+                clearCache.clearCache($.RECORD_PATH);
 
             } else if (id == R.id.nav_send) {
 

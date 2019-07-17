@@ -25,7 +25,7 @@ public class recordermanager {
     }
 
     public void record(String savepath, int format, int encoder) throws IOException {
-        stopRecord();
+        recorder.reset();
         isMRecorder = true;
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(format);

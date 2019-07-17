@@ -39,6 +39,7 @@ import com.ela.elacn.Home.Model.wordobject;
 import com.ela.elacn.Home.View.SpeakingPracticeAdapter;
 import com.ela.elacn.Home.View.VOAslow;
 import com.ela.elacn.R;
+import com.ela.elacn.Util.FileUtil;
 import com.ela.elacn.Util.JSON;
 import com.ela.elacn.Util.StringUtils;
 import com.ela.elacn.Util.mediamanager;
@@ -101,7 +102,7 @@ public class SpeakingPractice extends AppCompatActivity {
 
         Uri url = Uri.parse(model.getData().getUrl());
 
-        mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
+        mp3Path = $.RECORD_PATH + File.separator + url.getLastPathSegment();
 
 
         playmp3(datasource.get(0));
@@ -166,6 +167,9 @@ public class SpeakingPractice extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 speakingPracticeAdapter.changeSelected(position);
                 playmp3(datasource.get(position));
+                int h1 = b.speakinglist.getHeight();
+                int h2 = b.speakinglist.getHeight();
+                b.speakinglist.smoothScrollToPositionFromTop(position, h1/2 - h2/2);
             }
         });
 
@@ -175,13 +179,15 @@ public class SpeakingPractice extends AppCompatActivity {
            @Override
            public void clickplay(SpeakingPracticeAdapter.ViewHolder holder, VOAslowTextInfoModel model, int position) {
                Integer tag = Integer.valueOf(holder.record.getTag().toString());
-               if(tag == 1){
+               if(tag == 0){
                    playmp3(model);
                    holder.playAudio.setImageResource(R.drawable.pauseicon);
+                   holder.record.setTag(1);
                }
                else{
                    pausemp3();
                    holder.playAudio.setImageResource(R.drawable.playlarge);
+                   holder.record.setTag(0);
                }
            }
 
@@ -196,10 +202,17 @@ public class SpeakingPractice extends AppCompatActivity {
                if(permissioncheck.checkpermissions(SpeakingPractice.this, Manifest.permission.RECORD_AUDIO)){
 
                 if(tag == 1){
-                    holder.record.setImageResource(R.drawable.stop);
+                    holder.record.setImageResource(R.drawable.stopicon);
+
+                    if (!FileUtil.checkFile($.RECORD_PATH)) {
+                        Environment.getExternalStorageState();
+                        File directory = new File($.RECORD_PATH);
+                        directory.mkdirs();
+                    }
+
                     try {
 
-                        recordermanager.getManager().record($.ROOT_DIR + File.separator + md5String + ".mp3", MediaRecorder.OutputFormat.MPEG_2_TS,MediaRecorder.AudioEncoder.AAC);
+                        recordermanager.getManager().record($.RECORD_PATH + File.separator + md5String + ".mp3", MediaRecorder.OutputFormat.MPEG_2_TS,MediaRecorder.AudioEncoder.AAC);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -215,12 +228,25 @@ public class SpeakingPractice extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onResult(SpEvaResult spEvaResult, String s) {
+                        public void onResult(final SpEvaResult spEvaResult, String s) {
 
+                            final double data = spEvaResult.getPronunciation() + 0.5;
+
+                           final int score = (int)data;
 
                             speechmodel spmodel = JSON.parseObject(spEvaResult.getJson(),speechmodel.class);
-                            Log.e("GRADE", s);
                             settextcolor(model.getEnglish(), spmodel.getWords(),holder.english_text,position );
+                            datasource.get(position).setScore(score);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.banner.setVisibility(View.VISIBLE);
+                                    holder.score.setVisibility(View.VISIBLE);
+
+                                    holder.score.setText(String.valueOf(score)+"%");
+                                }
+                            });
+
                         }
                     });
                 }
@@ -252,13 +278,13 @@ public class SpeakingPractice extends AppCompatActivity {
     }
 
     @SuppressLint("ResourceAsColor")
-    private void settextcolor(String key, ArrayList<wordobject> userspeech, TextView textView, int position){
+    private void settextcolor(String key, ArrayList<wordobject> userspeech, final TextView textView, int position){
 
         final String[] englisharray = key.split(" ");
 
-        Spanny spannable = new Spanny();
+        final Spanny spannable = new Spanny();
 
-        for (int i =0; i < englisharray.length; i++) {
+        for (int i =0; i < userspeech.size(); i++) {
 
             int start = key.indexOf(englisharray[i]);
             int end = start + englisharray[i].length();
@@ -272,7 +298,14 @@ public class SpeakingPractice extends AppCompatActivity {
         }
 
         datasource.get(position).setTxtcolor(spannable);
-        textView.setText(spannable);
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText(spannable);
+            }
+        });
     }
 
 

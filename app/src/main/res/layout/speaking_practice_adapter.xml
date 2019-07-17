@@ -19,7 +19,7 @@
             android:layout_marginRight="15dp"
             android:fontFamily="@font/neuton"
             android:lineSpacingMultiplier="0.75"
-            android:text="Hello"
+            android:text="gghhyyhyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
             android:gravity="center"
 
             android:textColor="@color/black" />
@@ -36,6 +36,7 @@
             android:fontFamily="@font/noto_serif"
             android:lineSpacingMultiplier="1.2"
             android:text="Hello1"
+            android:layout_marginBottom="15dp"
             android:textColor="@color/black" />
 
         <LinearLayout
@@ -73,13 +74,8 @@
                 android:layout_weight="1"
                 android:padding="20dp"
                 android:tag="1"
-                android:src="@drawable/playgreen"/>
-            
-            
-            
-            
-            
-            
+                android:src="@drawable/playbak"/>
+
         </LinearLayout>
 
             <View
@@ -87,10 +83,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignBottom="@id/buttonPanel"
+            android:layout_alignBottom="@id/speakingpractice_cn"
+            android:layout_marginBottom="-15dp"
             android:background="#C2C2C2"
             android:alpha="0.8"
             />
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-13dp"
+            android:layout_marginRight="-19dp"
+            >
+
+            <ImageView
+                android:visibility="invisible"
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                android:translationY="-13dp"
+                android:translationX="7dp"
+                android:id="@+id/scorebanner"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/black"
+                android:background="@drawable/newscore"
+                android:alpha="0.9"
+                android:rotation="180" />
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/scoretext"
+                android:translationY="-5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:text="90"
+                />
+
+        </RelativeLayout>
+
+
 
     </RelativeLayout>
 

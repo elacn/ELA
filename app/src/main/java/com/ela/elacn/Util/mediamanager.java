@@ -109,15 +109,18 @@ public class mediamanager implements Runnable {
                 if(block != null) block.prepared();
                 mp.seekTo(start);
                 mp.start();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (block != null){
-                            block.playercallback();
+                if(timer!=null){
+
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (block != null){
+                                block.playercallback();
+                            }
+                            mp.stop();
                         }
-                        mp.stop();
-                    }
-                }, delay);
+                    }, delay);
+                }
             }
         });
 

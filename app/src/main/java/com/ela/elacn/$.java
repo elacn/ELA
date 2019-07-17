@@ -24,7 +24,7 @@ public class $ {
 
     public static final String ROOT_DIR = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+ SystemUtil.getName();
     public static final String MP3_DIRECTORY = ROOT_DIR + File.separator + "MP3";
-    public static final String RECORD_PATH = ROOT_DIR + File.separator + "Recorder";
+    public static final String RECORD_PATH = ROOT_DIR + File.separator + "Recordings";
     public static final String YOUDAO_APPKEY = "5fb87219b1669402";
 
 

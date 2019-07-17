@@ -109,4 +109,15 @@ public class VOAslowTextInfoModel implements Serializable {
     }
 
     private Spanny txtcolor;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    private int score = -1;
+
 }

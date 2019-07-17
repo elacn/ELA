@@ -7,6 +7,9 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,11 +71,14 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
 
 
 
+
+
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder viewHolder;
 
-
+        Animation iconanimation = new ScaleAnimation(0,1,0,1,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        iconanimation.setDuration(600);
 
 
 
@@ -90,10 +96,14 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
 
         if(mSelect==position){
             viewHolder.iconpanel.setVisibility(View.VISIBLE);
-           viewHolder.mask.setAlpha(0);
+            viewHolder.playAudio.startAnimation(iconanimation);
+            viewHolder.playBack.startAnimation(iconanimation);
+            viewHolder.record.startAnimation(iconanimation);
+            viewHolder.mask.setAlpha(0);
         }else{
             viewHolder.iconpanel.setVisibility(View.GONE);
-           viewHolder.mask.setAlpha(0.3f);
+            //animation
+            viewHolder.mask.setAlpha(0.5f);
         }
 
         viewHolder.playAudio.setOnClickListener(new View.OnClickListener() {
@@ -129,12 +139,27 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
             viewHolder.chinese_text.setText(model.getChinese());
         }
 
+        if(model.getScore() != -1){
+            viewHolder.score.setText(String.valueOf(model.getScore()));
+            viewHolder.banner.setVisibility(View.VISIBLE);
+            viewHolder.score.setVisibility(View.VISIBLE);
+        }
+        else{
+
+            viewHolder.banner.setVisibility(View.INVISIBLE);
+            viewHolder.score.setVisibility(View.INVISIBLE);
+        }
+
+
+        viewHolder.record.setTag(1);
+        viewHolder.record.setImageResource(R.drawable.recordicon);
 
         return viewHolder.itemView;
     }
 
     public static class ViewHolder{
-
+        public ImageView banner;
+        public TextView score;
         public View itemView;
         public TextView english_text;
         public TextView chinese_text;
@@ -153,6 +178,8 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
             mask = itemView.findViewById(R.id.mask);
             english_text = itemView.findViewById(R.id.speakingpractice_en);
             chinese_text = itemView.findViewById(R.id.speakingpractice_cn);
+            banner = itemView.findViewById(R.id.scorebanner);
+            score = itemView.findViewById(R.id.scoretext);
         }
 
     }
@@ -164,8 +191,6 @@ public class SpeakingPracticeAdapter extends BaseAdapter {
         if(positon != mSelect){
             mSelect = positon;
             notifyDataSetChanged();
-
-
         }
     }
 
