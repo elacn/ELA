@@ -28,6 +28,8 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.youdao.sdk.app.YouDaoApplication;
 
+import es.dmoral.toasty.Toasty;
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
         private int maxId = 0;
@@ -100,22 +102,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             if (id == R.id.nav_home) {
                 // Handle the camera action
-            } else if (id == R.id.nav_gallery) {
+            } else if (id == R.id.nav_getcache) {
+                double size = clearCache.getSize($.ROOT_DIR);
+                String s = String.format("%.2f",size);
+                Toasty.info(this,s + "megabytes" , Toast.LENGTH_SHORT, true).show();
 
-            } else if (id == R.id.nav_slideshow) {
-
-            } else if (id == R.id.nav_tools) {
-
-                Toast.makeText(this,String.valueOf(clearCache.getSize($.ROOT_DIR)), Toast.LENGTH_SHORT).show();
-
-            } else if (id == R.id.nav_share) {
-                clearCache.clearCache($.MP3_DIRECTORY);
-                clearCache.clearCache($.RECORD_PATH);
-
-            } else if (id == R.id.nav_send) {
+            } else if (id == R.id.nav_clearcache) {
+                clearCache.clearCache($.ROOT_DIR, this);
 
             }
-
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             return true;

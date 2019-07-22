@@ -1,6 +1,18 @@
 package com.ela.elacn.Util;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.ela.elacn.R;
+
 import java.io.File;
+
+import es.dmoral.toasty.Toasty;
+
 
 public class clearCache {
     //recursive get size
@@ -23,11 +35,30 @@ public class clearCache {
         return 0;
     }
 
-    public static void clearCache(String filepath){
-        FileUtil.deleteDir(filepath);
+    public static void clearCache(final String filepath, final Context where){
+
+        new AlertDialog.Builder(where )
+                .setTitle("Delete entry")
+                .setMessage("Are you sure you want to delete this entry?")
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        FileUtil.deleteDir(filepath);
+
+
+
+                        Toasty.success(where, "Success!", Toast.LENGTH_SHORT, true).show();
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
+
+
     }
-
-
-
-
 }
