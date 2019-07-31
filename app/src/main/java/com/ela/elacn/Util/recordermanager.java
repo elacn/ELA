@@ -40,9 +40,9 @@ public class recordermanager {
     }
 
     public void stopRecord(){
-        if(isMRecorder){
-            recorder.stop();
-        }
+//        if(isMRecorder){
+//            recorder.stop();
+//        }
         isMRecorder = false;
     }
 

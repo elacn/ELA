@@ -102,7 +102,7 @@ public class SpeakingPractice extends AppCompatActivity {
 
         Uri url = Uri.parse(model.getData().getUrl());
 
-        mp3Path = $.RECORD_PATH + File.separator + url.getLastPathSegment();
+        mp3Path = $.MP3_DIRECTORY + File.separator + url.getLastPathSegment();
 
 
         playmp3(datasource.get(0));
@@ -221,7 +221,7 @@ public class SpeakingPractice extends AppCompatActivity {
                     holder.record.setImageResource(R.drawable.recordicon);
                     holder.record.setTag(1);
                     recordermanager.getManager().stopRecord();
-                    grade(md5String + ".mp3", model.getEnglish(), new SpEvaListener() {
+                    grade( $.RECORD_PATH + File.separator + md5String + ".mp3", model.getEnglish(), new SpEvaListener() {
                         @Override
                         public void onError(int i) {
                             Log.e("NOGRADE",String.valueOf(i));
