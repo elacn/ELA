@@ -119,4 +119,13 @@ public class StringUtils {
         return data;
     }
 
+
+    public static String getCurrentTimedString(String tag){
+        String time = tag+String.valueOf(System.currentTimeMillis());
+
+        return time;
+
+
+    }
+
 }

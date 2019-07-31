@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ela.elacn.$;
+import com.ela.elacn.Home.View.VOANormal;
 import com.ela.elacn.Home.View.VOAslow;
 import com.ela.elacn.Model.Result;
 import com.ela.elacn.R;
@@ -122,16 +123,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             FragmentPagerItemAdapter adapter1 = new FragmentPagerItemAdapter(
                     getSupportFragmentManager(), FragmentPagerItems.with(this)
-                    .add("VOASLOW", VOAslow.class)
-                    .add("Hello1", VOAslow.class)
-                    .add("Hello2", VOAslow.class)
-                    .add("Hello3", VOAslow.class)
-                    .add("Hello4", VOAslow.class)
-                    .add("Hello5", VOAslow.class)
-                    .add("Hello6", VOAslow.class)
-                    .add("Hello7", VOAslow.class)
-                    .add("Hello8", VOAslow.class)
-                    .add("Hello9", VOAslow.class)
+                    .add("Slow English", VOAslow.class)
+                    .add("Normal English", VOANormal.class)
                     .create());
 
             b.viewpager.setAdapter(adapter1);

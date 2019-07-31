@@ -178,16 +178,16 @@ public class SpeakingPractice extends AppCompatActivity {
        speakingPracticeAdapter.setListener(new SpeakingPracticeAdapter.onclickbuttonlistener() {
            @Override
            public void clickplay(SpeakingPracticeAdapter.ViewHolder holder, VOAslowTextInfoModel model, int position) {
-               Integer tag = Integer.valueOf(holder.record.getTag().toString());
+               Integer tag = Integer.valueOf(holder.playAudio.getTag().toString());
                if(tag == 0){
                    playmp3(model);
                    holder.playAudio.setImageResource(R.drawable.pauseicon);
-                   holder.record.setTag(1);
+                   holder.playAudio.setTag(1);
                }
                else{
                    pausemp3();
                    holder.playAudio.setImageResource(R.drawable.playlarge);
-                   holder.record.setTag(0);
+                   holder.playAudio.setTag(0);
                }
            }
 
@@ -197,7 +197,7 @@ public class SpeakingPractice extends AppCompatActivity {
                mediamanager.getManager().stopMp3();
                holder.playAudio.setImageResource(R.drawable.playlarge);
                Integer tag = Integer.valueOf(holder.record.getTag().toString());
-               String md5String = StringUtils.md5encode(model.getEnglish());
+               String md5String = StringUtils.md5encode(String.valueOf(model.getEnd()));
 
                if(permissioncheck.checkpermissions(SpeakingPractice.this, Manifest.permission.RECORD_AUDIO)){
 
@@ -221,7 +221,7 @@ public class SpeakingPractice extends AppCompatActivity {
                     holder.record.setImageResource(R.drawable.recordicon);
                     holder.record.setTag(1);
                     recordermanager.getManager().stopRecord();
-                    grade( $.RECORD_PATH + File.separator + md5String + ".mp3", model.getEnglish(), new SpEvaListener() {
+                    grade( md5String + ".mp3", model.getEnglish(), new SpEvaListener() {
                         @Override
                         public void onError(int i) {
                             Log.e("NOGRADE",String.valueOf(i));
@@ -261,10 +261,14 @@ public class SpeakingPractice extends AppCompatActivity {
            @Override
            public void clickplayBack(SpeakingPracticeAdapter.ViewHolder holder, VOAslowTextInfoModel model, int position) {
 
-               String md5String = StringUtils.md5encode(model.getEnglish());
+               holder.playAudio.setTag(0);
+
+               holder.playAudio.setImageResource(R.drawable.playlarge);
+
+               String md5String = StringUtils.md5encode(String.valueOf(model.getEnd()));
 
                try {
-                   mediamanager.getManager().simplePlay($.ROOT_DIR + File.separator + md5String + ".mp3");
+                   mediamanager.getManager().simplePlay($.RECORD_PATH + File.separator + md5String + ".mp3");
                } catch (IOException error) {
                    error.printStackTrace();
                }
@@ -311,7 +315,7 @@ public class SpeakingPractice extends AppCompatActivity {
 
 
     private void grade(String filename, final String key, final SpEvaListener listener){
-        File mp3path = new File($.ROOT_DIR,filename);
+        File mp3path = new File($.RECORD_PATH,filename);
         IConvertCallback callback = new IConvertCallback() {
             @Override
             public void onSuccess(File convertedFile) {

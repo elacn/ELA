@@ -1,0 +1,199 @@
+package com.ela.elacn.Home.View;
+
+import android.content.Context;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.ela.elacn.$;
+import com.ela.elacn.Home.Activity.VOASlowInfoActivity;
+import com.ela.elacn.Home.Model.VOAslowModel;
+import com.ela.elacn.Model.Result;
+import com.ela.elacn.R;
+import com.ela.elacn.Util.JSON;
+import com.ela.elacn.Util.ReqClient;
+import com.ela.elacn.databinding.FragmentVoaslowBinding;
+import com.loopj.android.http.RequestParams;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class VOANormal extends Fragment {
+
+    private ArrayList<VOAslowModel> datasource = new ArrayList<VOAslowModel>();
+    private int maxId = 0;
+    private FragmentVoaslowBinding b;
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    private VOANormal.OnFragmentInteractionListener mListener;
+
+    public VOANormal() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment .
+     */
+    // TODO: Rename and change types and number of parameters
+    public static VOANormal newInstance(String param1, String param2) {
+        VOANormal fragment = new VOANormal();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    private  newAdapter viewAdapter;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        b = DataBindingUtil.inflate(inflater, R.layout.fragment_voaslow, container, false);
+
+
+        RefreshLayout refreshLayout = b.refreshLayout;
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000);
+
+                maxId = 0;
+                loadData();
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+
+                VOAslowModel model = datasource.get(datasource.size()-1);
+
+                maxId = model.getMessageId()-1;
+
+                loadData();
+            }
+        });
+
+        // Inflate the layout for this fragment
+
+        viewAdapter = new newAdapter(datasource, getActivity());
+
+        b.newsList.setAdapter(viewAdapter);
+
+        viewAdapter.setOnItemClickListener(new newAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                Intent intent = new Intent(getActivity(), VOASlowInfoActivity.class);
+                intent.putExtra("data",datasource.get(position));
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        });
+
+        loadData();
+
+        return b.getRoot();
+    }
+
+
+    private void loadData(){
+
+        RequestParams params = new RequestParams();
+        params.add("limit",String.valueOf(10));
+        params.add("s","voastandard");
+        params.add("syncText","1");
+        params.add("maxId",String.valueOf(maxId));
+
+        ReqClient.get($.DEV_SERVER + "/feed", params, new ReqClient.Handler<String>(String.class){
+            @Override
+            public void res(Result<String> res) {
+
+                b.refreshLayout.finishLoadMore(1000);
+                b.refreshLayout.finishRefresh(1000);
+
+                if (res.isSuccess()){
+
+                    String json = res.data;
+
+                    List<VOAslowModel> list = JSON.parseArray(json, VOAslowModel.class);
+
+                    datasource.addAll(list);
+
+                    viewAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
+    public void setInteractionListener(VOANormal.OnFragmentInteractionListener mListener){
+        this.mListener = mListener;
+    }
+}

@@ -293,15 +293,25 @@ public class VOASlowInfoActivity extends AppCompatActivity{
             @Override
             public void onItemClick(int position) {
 
+                b.playpauseButton.setTag(0);
+                b.playpauseButton.setImageResource(R.drawable.pauseicon);
+
                 t.hidden();
                 adapter.changeSelected(position);//刷新
                 b.voaSlowListView.smoothScrollToPosition(position);
                 playIndex = position;
                 playmp3(mp3Path);
+
+
+
             }
 
             @Override
             public void onTextClick(String what) {
+
+                b.playpauseButton.setTag(0);
+                b.playpauseButton.setImageResource(R.drawable.pauseicon);
+
                 t.translateCard(what);
                 t.show(true);
             }
@@ -320,6 +330,8 @@ public class VOASlowInfoActivity extends AppCompatActivity{
 
                 b.voaSlowListView.smoothScrollToPositionFromTop(playIndex, h1 / 2 - h2 / 2);
                 playIndex = position;
+                b.playpauseButton.setTag(0);
+                b.playpauseButton.setImageResource(R.drawable.pauseicon);
                 playmp3(mp3Path);
             }
         });
@@ -431,6 +443,7 @@ public class VOASlowInfoActivity extends AppCompatActivity{
     }
 
     public void downloadMP3(String url, String path){
+
         FileDownloader.getImpl().create(url)
                 .setPath(path)
                 .setListener(new FileDownloadListener() {
@@ -481,6 +494,8 @@ public class VOASlowInfoActivity extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
 
+        FileDownloader.getImpl().pauseAll();
+        FileDownloader.getImpl().clearAllTaskData();
         mediamanager.getManager().stopMp3();
     }
 
