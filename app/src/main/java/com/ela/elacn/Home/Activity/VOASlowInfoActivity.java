@@ -395,6 +395,8 @@ public class VOASlowInfoActivity extends AppCompatActivity{
         if (!FileUtil.checkFile(mp3Path)) {
             downloadMP3(model.getData().getUrl(), mp3Path);
         } else {
+            b.voaSlowListView.setVisibility(View.VISIBLE);
+            b.downloadProgress.setVisibility(View.INVISIBLE);
             playmp3(mp3Path);
         }
     }
