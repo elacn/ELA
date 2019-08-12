@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.ela.elacn.R;
 
 import java.io.File;
+import java.math.BigDecimal;
 
 import es.dmoral.toasty.Toasty;
 
@@ -30,7 +31,7 @@ public class clearCache {
                     result += fileList[i].length();
                 }
             }
-            return result/1024/1024; // return the file size
+            return result/1024.0/1024.0; // return the file size
         }
         return 0;
     }
@@ -59,6 +60,19 @@ public class clearCache {
                 .show();
 
 
+
+    }
+
+    public static void main(String[] args) {
+        double test = 1.291929192;
+
+        BigDecimal bg = new BigDecimal(test);
+
+        double f1 = bg.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+
+        System.out.println(f1);
+
+        System.out.println(String.format("%.2f",test));
 
     }
 }

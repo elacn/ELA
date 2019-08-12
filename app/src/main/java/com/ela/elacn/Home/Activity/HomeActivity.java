@@ -36,6 +36,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         private int maxId = 0;
         private Toolbar toolbar;
 
+
         private ActivityHomeBinding b;
 
         @Override
@@ -105,7 +106,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 // Handle the camera action
             } else if (id == R.id.nav_getcache) {
                 double size = clearCache.getSize($.ROOT_DIR);
-                String s = String.format("%.2f",size);
+                size = size*1000000;
+                String s = String.format(String.format("%.2f",size));
                 Toasty.info(this,s + "megabytes" , Toast.LENGTH_SHORT, true).show();
 
             } else if (id == R.id.nav_clearcache) {
