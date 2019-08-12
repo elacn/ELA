@@ -8,19 +8,14 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
             android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_getcache"
+            android:icon="@drawable/ic_cache"
+            android:title="Get Cache" />
+        <item
+            android:id="@+id/nav_clearcache"
+            android:icon="@drawable/ic_trash"
+            android:title="Clear Cache" />
     </group>
-
-    <item android:title="Tools">
-        <menu>
-            <item
-                android:id="@+id/nav_getcache"
-                android:icon="@drawable/ic_cache"
-                android:title="Get Cache" />
-            <item
-                android:id="@+id/nav_clearcache"
-                android:icon="@drawable/ic_trash"
-                android:title="Clear Cache" />
-        </menu>
-    </item>
 
 </menu>
